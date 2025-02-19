@@ -1,0 +1,8 @@
+version: "3"
+services:
+  react-app:
+    build: .
+    container_name: react-nginx
+    ports:
+      - "8080:80"
+    restart: unless-stopped
