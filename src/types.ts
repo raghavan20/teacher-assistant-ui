@@ -1,8 +1,19 @@
-export interface AnalysisResult {
-  delivery: number;
-  structure: number;
-  engagement: number;
-  feedback: string;
+export interface RecordingAnalysis {
+  grade: string;
+  id: number;
+  r_depth: number;
+  r_full_response_json: {
+    feedback: string;
+  };
+  r_overall_score: number;
+  r_structure: number;
+  r_style: number;
+  r_suggestions_count: number;
+  r_topics_covered: number;
+  r_topics_required: number;
+  subject: string;
+  timestamp: string;
+  user_id: number;
 }
 
 export interface RecordingState {
@@ -11,15 +22,15 @@ export interface RecordingState {
   duration: number;
 }
 
-export interface SubjectDetails {
+export interface RecordingDetails {
   subject: string;
   grade: string;
-  notes: string;
+  audioBlob?: Blob;
+  timestamp: string;
+  analysis?: RecordingAnalysis;
 }
 
-export interface StoredRecording {
-  id: string;
-  timestamp: number;
-  audioUrl: string;
-  subjectDetails: SubjectDetails;
+export interface StarRatingProps {
+  value: number;
+  maxValue?: number;
 }
