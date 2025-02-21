@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Header from '../components/Header';
 import AnalysisWidget from '../components/AnalysisWidget';
 import type { RecordingAnalysis } from '../types';
 import { ArrowLeft } from 'lucide-react';
@@ -28,14 +29,7 @@ export default function AnalysisPage() {
 
     return (
         <div className="max-w-4xl mx-auto p-4">
-            <div className='absolute top-2 left-2'>
-                <Link to="/recordings" className="text-blue-500 hover:underline">
-                    <div className='flex gap-1'>
-                        <ArrowLeft className='text-blue-500'/> All Lessons
-                    </div>
-                </Link>
-            </div>
-            <h1 className="text-2xl font-bold mb-6 mt-6">Analysis</h1>
+            <Header pageTitle="Lesson Analysis" />
             <AnalysisWidget analysis={mockAnalysis} onShowDetails={handleShowDetails} />
         </div>
     );

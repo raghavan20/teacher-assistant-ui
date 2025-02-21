@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Mic, Square, Send, Trash} from 'lucide-react';
+import { Mic, Square, Sparkles, Trash } from 'lucide-react';
 import type { RecordingState, RecordingDetails } from '../types';
+import Header from '../components/Header';
 
 export default function RecordingPage() {
   const navigate = useNavigate();
@@ -128,130 +129,134 @@ export default function RecordingPage() {
 
   if (!showRecorder) {
     return (
-      <div className="max-w-lg mx-auto p-4">
-        <h1 className="text-2xl font-bold mb-6">New Lesson</h1>
-        <form onSubmit={handleSubmitDetails} className="space-y-4">
-        <div>
-          <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
-            Subject
-          </label>
-          <select
-            id="subject"
-            name="subject"
-            required
-            className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="" disabled selected className="text-gray-400">Select Subject</option>
-            <option value="English">English</option>
-            <option value="Hindi">Hindi</option>
-            <option value="Mathematics">Mathematics</option>
-            <option value="Science">Science</option>
-            <option value="History">History</option>
-            <option value="Geography">Geography</option>
-            <option value="Economics">Economics</option>
-          </select>
-        </div>
+      <div className="min-h-screen px-4 py-4 flex flex-col">
+        <Header pageTitle="New Lesson" />
+        <div className="flex-grow flex items-center justify-center">
+          <form onSubmit={handleSubmitDetails} className="space-y-4 w-full max-w-lg p-4">
+            <div>
+              <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
+                Subject
+              </label>
+              <select
+                id="subject"
+                name="subject"
+                required
+                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="" disabled selected className="text-gray-400">Select Subject</option>
+                <option value="English">English</option>
+                <option value="Hindi">Hindi</option>
+                <option value="Mathematics">Mathematics</option>
+                <option value="Science">Science</option>
+                <option value="History">History</option>
+                <option value="Geography">Geography</option>
+                <option value="Economics">Economics</option>
+              </select>
+            </div>
 
-        <div>
-          <label htmlFor="grade" className="block text-sm font-medium text-gray-700 mb-1">
-            Grade Level
-          </label>
-          <select
-            id="grade"
-            name="grade"
-            required
-            className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="" disabled selected className="text-gray-400">Select Grade</option>
-            <option value="1">Grade 1</option>
-            <option value="2">Grade 2</option>
-            <option value="3">Grade 3</option>
-            <option value="4">Grade 4</option>
-            <option value="5">Grade 5</option>
-            <option value="6">Grade 6</option>
-            <option value="7">Grade 7</option>
-            <option value="8">Grade 8</option>
-            <option value="9">Grade 9</option>
-            <option value="10">Grade 10</option>
-          </select>
-        </div>
+            <div>
+              <label htmlFor="grade" className="block text-sm font-medium text-gray-700 mb-1">
+                Grade Level
+              </label>
+              <select
+                id="grade"
+                name="grade"
+                required
+                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="" disabled selected className="text-gray-400">Select Grade</option>
+                <option value="1">Grade 1</option>
+                <option value="2">Grade 2</option>
+                <option value="3">Grade 3</option>
+                <option value="4">Grade 4</option>
+                <option value="5">Grade 5</option>
+                <option value="6">Grade 6</option>
+                <option value="7">Grade 7</option>
+                <option value="8">Grade 8</option>
+                <option value="9">Grade 9</option>
+                <option value="10">Grade 10</option>
+              </select>
+            </div>
 
-        <div>
-          <label htmlFor="notes" className="block text-sm font-medium text-gray-700 mb-1">
-            Topic or Goals for the Lesson
-          </label>
-          <textarea
-            id="notes"
-            name="notes"
-            rows={3}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Topic Details or Specific Goals for the Lesson (Optional)"
-          />
+            <div>
+              <label htmlFor="notes" className="block text-sm font-medium text-gray-700 mb-1">
+                Topic or Goals for the Lesson
+              </label>
+              <textarea
+                id="notes"
+                name="notes"
+                rows={3}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Topic Details or Specific Goals for the Lesson (Optional)"
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-colors"
+            >
+              Start Lesson
+            </button>
+          </form>
         </div>
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-colors"
-          >
-            Start Lesson
-          </button>
-        </form>
       </div>
     );
   }
 
   return (
-    <div className="max-w-lg mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-6">Recording</h1>
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <div className="text-center mb-4">
-          <p className="font-semibold">{details.subject}</p>
-          <p className="text-gray-600">Grade {details.grade}</p>
-        </div>
-        
-        <div className="text-center mb-4">
-          <div className="text-2xl font-mono mb-2">
-            {formatTime(recordingState.duration)}
+    <div className="min-h-screen px-4 py-4 flex flex-col">
+      <Header pageTitle="Start Lesson" />
+      <div className="flex-grow flex items-center justify-center">
+        <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-lg">
+          <div className="text-center mb-4">
+            <h2 className="text-2xl font-semibold">{details.subject}</h2>
+            <h3 className="text-xl text-gray-600">Grade {details.grade}</h3>
           </div>
-        </div>
+          
+          <div className="text-center mt-8 mb-8">
+            <div className="text-2xl font-mono mb-2">
+              {formatTime(recordingState.duration)}
+            </div>
+          </div>
 
-        <div className="flex justify-center mb-4">
-          {!recordingState.isRecording ? (
-            <button
-              onClick={startRecording}
-              className="p-4 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
-            >
-              <Mic size={24} />
-            </button>
-          ) : (
-            <button
-              onClick={stopRecording}
-              className="p-4 bg-gray-600 text-white rounded-full hover:bg-gray-700 transition-colors"
-            >
-              <Square size={24} />
-            </button>
+          <div className="flex mt-6 mb-6 justify-center mb-4">
+            {!recordingState.isRecording ? (
+              <button
+                onClick={startRecording}
+                className="p-4 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+              >
+                <Mic size={48} />
+              </button>
+            ) : (
+              <button
+                onClick={stopRecording}
+                className="p-4 bg-gray-600 text-white rounded-full hover:bg-gray-700 transition-colors"
+              >
+                <Square size={24} />
+              </button>
+            )}
+          </div>
+
+          {recordingState.audioUrl && (
+            <>
+              <audio src={recordingState.audioUrl} controls className="w-full mb-4" />
+              <div className="flex gap-2">
+                <button
+                  onClick={handleAnalyze}
+                  className="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 flex items-center justify-center gap-2 transition-colors"
+                >
+                  <Sparkles size={20} />
+                  <span>Analyze Lesson</span>
+                </button>
+                <button
+                  onClick={() => setShowDeleteConfirm(true)}
+                  className="w-1/4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 flex items-center justify-center gap-2 transition-colors"
+                >
+                  <Trash size={20} />
+                </button>
+              </div>
+            </>
           )}
         </div>
-
-        {recordingState.audioUrl && (
-          <>
-            <audio src={recordingState.audioUrl} controls className="w-full mb-4" />
-            <div className="flex gap-2">
-              <button
-                onClick={handleAnalyze}
-                className="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 flex items-center justify-center gap-2 transition-colors"
-              >
-                <Send size={20} />
-                <span>Analyze</span>
-              </button>
-              <button
-                onClick={() => setShowDeleteConfirm(true)}
-                className="w-1/4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 flex items-center justify-center gap-2 transition-colors"
-              >
-                <Trash size={20} />
-              </button>
-            </div>
-          </>
-        )}
       </div>
       {showDeleteConfirm && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">

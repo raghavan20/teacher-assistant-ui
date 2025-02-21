@@ -1,7 +1,9 @@
-import React from 'react';
-import { Plus } from 'lucide-react';
+import React, { useState } from 'react';
+import { Plus, Menu, X, CircleUser } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import type { RecordingAnalysis } from '../types';
+import Header from '../components/Header';
+import DonutChart from '../components/DonutChart';
 
 const mockAnalyses: RecordingAnalysis[] = [
   {
@@ -24,16 +26,24 @@ const mockAnalyses: RecordingAnalysis[] = [
 ];
 
 export default function HomePage() {
+  const pageTitle = "AI Teaching Assistant";
+  const teacherName = "Meenakshi"; // Replace with dynamic data if available
+
   return (
-    <div className="max-w-lg mx-auto p-4">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Teaching Assistant</h1>
-        <Link
-          to="/record"
-          className="bg-blue-500 text-white p-2 rounded-full hover:bg-blue-600 transition-colors"
-        >
-          <Plus size={24} />
-        </Link>
+    <div className="max-w-4xl mx-auto p-4 relative">
+      <Header pageTitle={pageTitle} />
+      <div className="mb-6">
+        <h2 className="text-xl font-semibold mb-4">Your Activity</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="bg-white p-4 rounded-lg shadow-md">
+            <h3 className="text-lg font-semibold mb-2">Overall Performance</h3>
+            <DonutChart percentage={mockAnalyses[0].r_overall_score} />
+          </div>
+          <div className="bg-white p-4 rounded-lg shadow-md">
+            <h3 className="text-lg font-semibold mb-2">Lessons Completed</h3>
+            <p className="text-4xl font-bold text-center">{mockAnalyses.length}</p>
+          </div>
+        </div>
       </div>
 
       <div className="space-y-4">
@@ -58,6 +68,13 @@ export default function HomePage() {
           </Link>
         ))}
       </div>
+
+      <Link
+        to="/record"
+        className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white p-4 rounded-full shadow-lg hover:bg-blue-600 transition-colors justify-center items-center flex"
+      >
+        <Plus size={64} />
+      </Link>
     </div>
   );
 }

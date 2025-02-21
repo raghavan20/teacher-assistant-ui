@@ -23,6 +23,7 @@ export interface RecordingState {
 }
 
 export interface RecordingDetails {
+  id: number;
   subject: string;
   grade: string;
   audioBlob?: Blob;
