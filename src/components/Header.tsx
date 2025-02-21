@@ -38,13 +38,13 @@ export default function Header({ pageTitle }: { pageTitle: string }) {
           </button>
           <ul className="space-y-4 text-center w-full">
           <li>
-              <Link to="/record" className="block text-4xl font-bold text-blue-500 hover:underline py-4">
+              <Link to="/record" className="block text-4xl font-bold text-green-500 hover:underline py-4">
                 Start New Lesson
               </Link>
             </li>
             <li>
               <Link to="/" className="block text-2xl text-black-500 hover:underline py-4">
-                Home
+                My Profile
               </Link>
             </li>
             <li>
