@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Info, ArrowRight, Share, Flame } from 'lucide-react';
+import { Info, ArrowRight, Share, PlayCircle, FerrisWheel, NotebookPen } from 'lucide-react';
 import type { RecordingAnalysis } from '../types';
 import StarRating from './StarRating.tsx';
 import { formatDate } from '../utilities.tsx';
@@ -40,21 +40,23 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
   return (
     <div className="relative">
       <div className="absolute top-2 right-2 flex items-center space-x-2">
-        <div className="flex items-center space-x-1">
-          <Flame size={16} className="text-red-500" />
-          <span className="text-sm font-semibold">{streak} days in a row!</span>
-        </div>
+      <button
+          onClick={() => setShowShareDialog(true)}
+          className="p-2 bg-gray-100 rounded-full hover:bg-gray-300 transition-colors"
+        >
+          <PlayCircle size={24} />
+        </button>
         <button
           onClick={() => setShowShareDialog(true)}
-          className="p-2 bg-gray-200 rounded-full hover:bg-gray-300 transition-colors"
+          className="p-2 bg-gray-100 rounded-full hover:bg-gray-300 transition-colors"
         >
-          <Share size={16} />
+          <Share size={24} />
         </button>
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div className="col-span-2">
-          <h4 className="text-xl font-semibold text-gray-800">{analysis.subject} - Grade {analysis.grade}</h4>
-          <h4 className="text-xl font-regular text-gray-400">{formatDate(analysis.timestamp)}</h4>
+          <p className="text-lg font-semibold text-gray-800">{analysis.subject} - Grade {analysis.grade}</p>
+          <p className="text-sm font-regular text-gray-400">{formatDate(analysis.timestamp)}</p>
         </div>
         {/* Widget A: Overall Score */}
         <button 
@@ -67,20 +69,20 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
               <DonutChart percentage={analysis.r_overall_score} />
             </div>
             <div className="flex flex-col items-center">
-              <div className={`text-4xl font-bold text-blue-500 transition-all duration-1000 ${textVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}`}>
+              <div className={`text-4xl font-bold text-black-500 transition-all duration-1000 ${textVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}`}>
                 {currentText}
               </div>
-              <div className="mt-4 space-y-2">
+              <div className="mt-4 mb-4 space-y-2">
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600 mr-2">Structure</span>
+                  <span className="text-sm font-semibold text-gray-600 mr-2">Structure</span>
                   <StarRating value={analysis.r_structure} />
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600 mr-2">Depth</span>
+                  <span className="text-sm font-semibold text-gray-600 mr-2">Depth</span>
                   <StarRating value={analysis.r_depth} />
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600 mr-2">Style</span>
+                  <span className="text-sm font-semibold text-gray-600 mr-2">Style</span>
                   <StarRating value={analysis.r_style} />
                 </div>
               </div>
@@ -105,7 +107,7 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
               <div className='text-xl font-bold text-center'>{analysis.r_topics_required}</div>
             </div>
           </div>
-          <p className="text-sm text-gray-600 text-center mt-2">topics covered</p>
+          <p className="text-sm text-gray-600 text-center mt-2">Topics Covered</p>
           <ArrowRight className="absolute bottom-2 right-2 text-gray-400" size={24} />
         </button>
 
@@ -118,14 +120,19 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
           <div className="text-6xl font-bold text-center">
             {analysis.r_suggestions_count}
           </div>
-          <p className="text-sm text-gray-600 text-center mt-2">suggestions</p>
+          <p className="text-sm text-gray-600 text-center mt-2">Suggestions</p>
           <ArrowRight className="absolute bottom-2 right-2 text-gray-400" size={24} />
         </button>
 
         {/* Widget D: Generate Homework */}
         <div className="col-span-2 flex flex-col items-center justify-center text-center mt-4">
-          <button className="w-3/4 py-4 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors">
-            Generate Homework Assignment
+          <button className="w-3/4 my-2 py-4 bg-purple-500 text-white rounded-md hover:bg-purple-600 flex items-center justify-center gap-2 transition-colors">
+            <FerrisWheel size={24} />
+            <span>Suggest Fun Activity!</span>
+          </button>
+          <button className="w-3/4 my-2 py-4 bg-pink-500 text-white rounded-md hover:bg-pink-600 flex items-center justify-center gap-2 transition-colors">
+            <NotebookPen size={24} />
+            <span>Generate Worksheet</span>
           </button>
         </div>
       </div>

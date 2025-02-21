@@ -2,7 +2,7 @@ import React from 'react';
 import { Star, StarHalf } from 'lucide-react';
 import type { StarRatingProps } from '../types';
 
-export default function StarRating({ value, maxValue = 5 }: StarRatingProps) {
+export default function StarRating({ value, maxValue = 3 }: StarRatingProps) {
   const fullStars = Math.floor(value);
   const hasHalfStar = value % 1 >= 0.5;
   const emptyStars = Math.floor(maxValue - value);

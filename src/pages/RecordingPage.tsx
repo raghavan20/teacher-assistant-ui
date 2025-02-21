@@ -193,7 +193,7 @@ export default function RecordingPage() {
             <div className='flex justify-center'>
               <button
                 type="submit"
-                className="w-1/2 bg-blue-500 text-white font-bold py-2 rounded-md hover:bg-blue-600 transition-colors mt-8"
+                className="w-1/2 bg-green-500 text-white font-bold py-2 rounded-md hover:bg-green-600 transition-colors mt-8"
               >
                 Let's Start!
               </button>
@@ -224,16 +224,16 @@ export default function RecordingPage() {
             {!recordingState.isRecording ? (
               <button
                 onClick={startRecording}
-                className="p-4 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                className="p-8 my-12 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
               >
                 <Mic size={48} />
               </button>
             ) : (
               <button
                 onClick={stopRecording}
-                className="p-4 bg-gray-600 text-white rounded-full hover:bg-gray-700 transition-colors"
+                className="p-8 my-12 bg-gray-600 text-white rounded-full hover:bg-gray-700 transition-colors"
               >
-                <Square size={24} />
+                <Square size={48} />
               </button>
             )}
           </div>
@@ -241,19 +241,20 @@ export default function RecordingPage() {
           {recordingState.audioUrl && (
             <>
               <audio src={recordingState.audioUrl} controls className="w-full mb-4" />
-              <div className="flex gap-2">
+              <div className="mt-12">
                 <button
                   onClick={handleAnalyze}
-                  className="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 flex items-center justify-center gap-2 transition-colors"
+                  className="w-full py-4 mt-16 mb-2 font-semibold bg-blue-500 text-white rounded-md hover:bg-blue-600 flex items-center justify-center gap-2 transition-colors"
                 >
                   <Sparkles size={20} />
                   <span>Analyze Lesson</span>
                 </button>
                 <button
                   onClick={() => setShowDeleteConfirm(true)}
-                  className="w-1/4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 flex items-center justify-center gap-2 transition-colors"
+                  className="w-full py-4 mt-2 font-semibold bg-gray-300 text-white rounded-md hover:bg-red-600 flex items-center justify-center gap-2 transition-colors"
                 >
-                  <Trash size={20} />
+                  <Trash className='text-red-500' size={20} />
+                  <span className='text-red-500'>Delete</span>
                 </button>
               </div>
             </>
@@ -262,18 +263,18 @@ export default function RecordingPage() {
       </div>
       {showDeleteConfirm && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-md">
+          <div className="bg-white p-6 rounded-lg shadow-md mx-8">
             <p className="mb-4">Are you sure you want to delete this recording?</p>
-            <div className="flex gap-4">
+            <div className="flex gap-8 items-center justify-center mt-6">
               <button
                 onClick={handleDelete}
-                className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors"
+                className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors width-1/4"
               >
                 Yes
               </button>
               <button
                 onClick={() => setShowDeleteConfirm(false)}
-                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 transition-colors"
+                className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 transition-colors width-1/4"
               >
                 No
               </button>

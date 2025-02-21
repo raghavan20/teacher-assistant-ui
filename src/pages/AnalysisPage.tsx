@@ -7,9 +7,9 @@ import { ArrowLeft } from 'lucide-react';
 
 const mockAnalysis: RecordingAnalysis = {
     r_overall_score: 85,
-    r_structure: 4,
-    r_depth: 3,
-    r_style: 5,
+    r_structure: 3,
+    r_depth: 2,
+    r_style: 3,
     r_topics_covered: 8,
     r_topics_required: 10,
     r_suggestions_count: 3,
