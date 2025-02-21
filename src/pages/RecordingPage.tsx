@@ -134,14 +134,14 @@ export default function RecordingPage() {
         <div className="flex-grow flex items-center justify-center">
           <form onSubmit={handleSubmitDetails} className="space-y-4 w-full max-w-lg p-4">
             <div>
-              <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="subject" className="block text-md font-bold text-gray-700 mt-8 mb-2">
                 Subject
               </label>
               <select
                 id="subject"
                 name="subject"
                 required
-                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 bg-white text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="" disabled selected className="text-gray-400">Select Subject</option>
                 <option value="English">English</option>
@@ -155,14 +155,14 @@ export default function RecordingPage() {
             </div>
 
             <div>
-              <label htmlFor="grade" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="grade" className="block text-md font-bold text-gray-700 mt-8 mb-2">
                 Grade Level
               </label>
               <select
                 id="grade"
                 name="grade"
                 required
-                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 bg-white text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="" disabled selected className="text-gray-400">Select Grade</option>
                 <option value="1">Grade 1</option>
@@ -179,23 +179,25 @@ export default function RecordingPage() {
             </div>
 
             <div>
-              <label htmlFor="notes" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="notes" className="block text-md font-bold text-gray-700 mt-8 mb-2">
                 Topic or Goals for the Lesson
               </label>
               <textarea
                 id="notes"
                 name="notes"
                 rows={3}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Topic Details or Specific Goals for the Lesson (Optional)"
               />
             </div>
-            <button
-              type="submit"
-              className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-colors"
-            >
-              Start Lesson
-            </button>
+            <div className='flex justify-center'>
+              <button
+                type="submit"
+                className="w-1/2 bg-blue-500 text-white font-bold py-2 rounded-md hover:bg-blue-600 transition-colors mt-8"
+              >
+                Let's Start!
+              </button>
+            </div>
           </form>
         </div>
       </div>
@@ -204,7 +206,7 @@ export default function RecordingPage() {
 
   return (
     <div className="min-h-screen px-4 py-4 flex flex-col">
-      <Header pageTitle="Start Lesson" />
+      <Header pageTitle="Start New Lesson" />
       <div className="flex-grow flex items-center justify-center">
         <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-lg">
           <div className="text-center mb-4">

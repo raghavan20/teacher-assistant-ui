@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Info, ArrowRight, Share2, Flame } from 'lucide-react';
+import { Info, ArrowRight, Share, Flame } from 'lucide-react';
 import type { RecordingAnalysis } from '../types';
 import StarRating from './StarRating.tsx';
 import { formatDate } from '../utilities.tsx';
@@ -48,7 +48,7 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
           onClick={() => setShowShareDialog(true)}
           className="p-2 bg-gray-200 rounded-full hover:bg-gray-300 transition-colors"
         >
-          <Share2 size={16} />
+          <Share size={16} />
         </button>
       </div>
       <div className="grid grid-cols-2 gap-4">
