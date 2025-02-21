@@ -115,6 +115,22 @@ export default function RecordingPage() {
     }
   };
 
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const audioUrl = URL.createObjectURL(file);
+      setRecordingState(prev => ({
+        ...prev,
+        audioUrl,
+        isRecording: false,
+      }));
+      setDetails(prev => ({
+        ...prev,
+        audioBlob: file
+      }));
+    }
+  };
+
   const handleDelete = () => {
     // Implement the delete functionality here
     console.log('Recording deleted');
@@ -179,23 +195,29 @@ export default function RecordingPage() {
             </div>
 
             <div>
-              <label htmlFor="notes" className="block text-md font-bold text-gray-700 mt-8 mb-2">
-                Topic or Goals for the Lesson
-              </label>
+              <div className='flex justify-between mt-8 mb-4'>
+                <label htmlFor="notes" className="block text-md font-bold text-gray-700">
+                  Lesson Plan
+                </label>
+                <button className='flex items-center gap-2 text-sm text-blue-500 font-medium hover:underline'>
+                  <Sparkles size={18} />
+                  <p>Generate with AI</p>
+                </button>
+              </div>
               <textarea
                 id="notes"
                 name="notes"
-                rows={3}
+                rows={10}
                 className="w-full px-3 py-2 border border-gray-300 text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Topic Details or Specific Goals for the Lesson (Optional)"
+                placeholder="Add Your Lesson Plan or Generate"
               />
             </div>
             <div className='flex justify-center'>
               <button
                 type="submit"
-                className="w-1/2 bg-green-500 text-white font-bold py-2 rounded-md hover:bg-green-600 transition-colors mt-8"
+                className="w-1/2 py-4 bg-green-500 text-white font-bold py-2 rounded-md hover:bg-green-600 transition-colors mt-8"
               >
-                Let's Start!
+                Start Lesson
               </button>
             </div>
           </form>
@@ -213,7 +235,7 @@ export default function RecordingPage() {
             <h2 className="text-2xl font-semibold">{details.subject}</h2>
             <h3 className="text-xl text-gray-600">Grade {details.grade}</h3>
           </div>
-          
+
           <div className="text-center mt-8 mb-8">
             <div className="text-2xl font-mono mb-2">
               {formatTime(recordingState.duration)}
@@ -221,21 +243,49 @@ export default function RecordingPage() {
           </div>
 
           <div className="flex mt-6 mb-6 justify-center mb-4">
-            {!recordingState.isRecording ? (
+            {!recordingState.isRecording && !recordingState.audioUrl ? (
               <button
                 onClick={startRecording}
-                className="p-8 my-12 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                className="p-8 my-12 bg-red-500 text-white rounded-full shadow-lg hover:bg-red-600 transition-colors"
               >
                 <Mic size={48} />
               </button>
-            ) : (
+            ) : null}
+
+            {recordingState.isRecording ? (
               <button
                 onClick={stopRecording}
-                className="p-8 my-12 bg-gray-600 text-white rounded-full hover:bg-gray-700 transition-colors"
+                className="p-8 my-12 bg-gray-600 text-white rounded-full shadow-lg hover:bg-gray-700 transition-colors"
               >
                 <Square size={48} />
               </button>
-            )}
+            ) : null
+            }
+          </div>
+
+          <div className="flex mt-6 mb-6 justify-center mb-4">
+            {!recordingState.isRecording && !recordingState.audioUrl ? (
+              <div className="items-center justify-center w-full">
+                <div className='text-center text-lg text-gray-500'>
+                  Or Upload a Recording...
+                </div>
+                <div className="flex justify-center items-center py-8">
+                  <label className="cursor-pointer">
+                    <input
+                      type="file"
+                      className="hidden"
+                      accept="audio/*"
+                      onChange={handleFileUpload}
+                    />
+                    <div className="bg-blue-500 text-white text-center py-3 px-6 rounded-lg shadow-lg transform transition duration-300 ease-in-out hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                      Choose File
+                    </div>
+                    <p className='text-sm text-gray-400 my-2'>Supports MP3, WAV, OGG</p>
+                  </label>
+                </div>
+              </div>
+
+            ) : null}
           </div>
 
           {recordingState.audioUrl && (

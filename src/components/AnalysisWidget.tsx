@@ -126,11 +126,11 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
 
         {/* Widget D: Generate Homework */}
         <div className="col-span-2 flex flex-col items-center justify-center text-center mt-4">
-          <button className="w-3/4 my-2 py-4 bg-purple-500 text-white rounded-md hover:bg-purple-600 flex items-center justify-center gap-2 transition-colors">
+          <button className="w-3/4 my-2 py-4 bg-purple-500 text-white rounded-md shadow-lg hover:bg-purple-600 flex items-center justify-center gap-2 transition-colors">
             <FerrisWheel size={24} />
             <span>Suggest Fun Activity!</span>
           </button>
-          <button className="w-3/4 my-2 py-4 bg-pink-500 text-white rounded-md hover:bg-pink-600 flex items-center justify-center gap-2 transition-colors">
+          <button className="w-3/4 my-2 py-4 bg-pink-500 text-white rounded-md shadow-lg hover:bg-pink-600 flex items-center justify-center gap-2 transition-colors">
             <NotebookPen size={24} />
             <span>Generate Worksheet</span>
           </button>

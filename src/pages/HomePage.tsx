@@ -88,7 +88,7 @@ export default function HomePage() {
               <BookOpenCheck size={24} className="text-center text-blue-500" />
               <p className='text-2xl font-semibold text-center'>{totalLessons}</p>
             </div>
-            <div className='text-md font-medium text-center'>Lessons Completed</div>
+            <div className='text-md font-medium text-center'>Lessons<br/>Completed</div>
           </Link>
         </div>
       </div>
@@ -110,7 +110,7 @@ export default function HomePage() {
 
       <Link
         to="/record"
-        className="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition-colors justify-center items-center flex"
+        className="fixed bottom-8 shadow-lg left-1/2 transform -translate-x-1/2 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition-colors justify-center items-center flex"
       >
         <Plus size={64} />
       </Link>
