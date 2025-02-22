@@ -5,6 +5,7 @@ import type { RecordingAnalysis } from '../types';
 import StarRating from './StarRating.tsx';
 import { formatDate, toSentenceCase } from '../utils.tsx';
 import DonutChart from './DonutChart.tsx';
+import { Link } from 'react-router-dom';
 
 interface AnalysisWidgetProps {
   analysis: RecordingAnalysis;
@@ -159,15 +160,16 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
           <ArrowRight className="absolute bottom-2 right-2 text-gray-400" size={24} />
         </button>
 
-        {/* Widget D: Generate Homework */}
+        {/* Widget D: Generate Quiz */}
         <div className="col-span-2 flex flex-col items-center justify-center text-center mt-4">
           <button className="w-3/4 my-2 py-4 bg-purple-500 text-white rounded-md shadow-lg hover:bg-purple-600 flex items-center justify-center gap-2 transition-colors">
             <FerrisWheel size={24} />
             <span>Suggest Fun Activity!</span>
           </button>
           <button className="w-3/4 my-2 py-4 bg-pink-500 text-white rounded-md shadow-lg hover:bg-pink-600 flex items-center justify-center gap-2 transition-colors">
-            <NotebookPen size={24} />
-            <span>Generate Worksheet</span>
+            <Link className='flex gap-2' to={`/recordings/${analysis.id}/quiz`}>
+              <span>Generate Quiz</span>
+            </Link>
           </button>
         </div>
       </div>

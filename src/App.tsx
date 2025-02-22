@@ -20,10 +20,10 @@ function App() {
         <Route path="/record" element={<RecordingPage />} />
         <Route path="/recordings/:id" element={<RecordingPage />} />
         <Route path="/recordings/:id/analysis" element={<AnalysisPage />} />
-        <Route path="/recordings/:id/quiz" element={<QuizPage />} />
         <Route path="/recordings/:id/activity" element={<ActivityPage />} />
         <Route path="/recordings/:id/suggestions" element={<SuggestionsPage />} />
         <Route path="/recordings/:id/topics" element={<TopicsPage />} />
+        <Route path="/recordings/:recordingId/quiz" element={<QuizPage />} />
       </Routes>
     </Router>
   );
