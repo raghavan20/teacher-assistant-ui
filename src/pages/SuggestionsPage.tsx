@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import Header from '../components/Header';
+import { toSentenceCase } from '../utils';
 
 interface SuggestionsData {
   suggestions: {
@@ -13,7 +14,7 @@ interface SuggestionsData {
 
 export default function SuggestionsPage() {
   const location = useLocation();
-  const { suggestionsData } = location.state as { suggestionsData?: SuggestionsData } || {};
+  const suggestionsData = location.state?.suggestionsData as SuggestionsData | undefined;
 
   if (!suggestionsData) {
     return (
@@ -35,12 +36,11 @@ export default function SuggestionsPage() {
         <ArrowLeft className='cursor-pointer' onClick={() => window.history.back()} />
         <p className='text-lg font-medium px-2'>Back</p>
       </div>
-      {suggestionsData.suggestions.map((suggestion, index) => (
+      {suggestionsData.map((suggestion, index) => (
         <div key={index} className="mb-12">
+          <p className="text-md font-bold text-green-500">{suggestion.pedagogy_step.toUpperCase()}</p>
           <h2 className="text-xl font-bold mb-2">{suggestion.title}</h2>
           <p className="text-md mb-2">{suggestion.description}</p>
-          <p className="text-md font-semibold">Pedagogy Step:</p>
-          <p className="text-md mb-4">{suggestion.pedagogy_step}</p>
         </div>
       ))}
     </div>

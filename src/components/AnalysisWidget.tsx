@@ -23,6 +23,7 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
   const [structureStars, setStructureStars] = useState(0); // Example structure value
   const [depthStars, setDepthStars] = useState(0); // Example depth value
   const [styleStars, setStyleStars] = useState(0); // Example style value
+  const lessonPlanMetricsData = analysis.r_full_response_json.predictions.lesson_plan_metrics;
   const suggestionsData = analysis.r_full_response_json.suggestions;
 
   useEffect(() => {
@@ -130,8 +131,8 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
         </button>
 
         {/* Widget B: Topics */}
-        <button 
-          onClick={() => navigate('/recordings/' + analysis.id + '/topics')}
+        <Link 
+          to={'/recordings/' + analysis.id + '/topics'} state={{ lessonPlanMetricsData }}
           className="bg-white p-6 rounded-lg shadow-md relative text-left"
         >
           <h3 className="text-lg font-semibold mb-2">Topics</h3>
@@ -146,11 +147,11 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
           </div>
           <p className="text-sm text-gray-600 text-center mt-2">Topics Covered</p>
           <ArrowRight className="absolute bottom-2 right-2 text-gray-400" size={24} />
-        </button>
+        </Link>
 
         {/* Widget C: Suggestions */}
-        <button
-          onClick={() => navigate('/recordings/' + analysis.id + '/suggestions', { state: { suggestionsData } })}
+        <Link
+          to={'/recordings/' + analysis.id + '/suggestions'} state={{ suggestionsData }}
           className="bg-white p-6 rounded-lg shadow-md relative text-left"
         >
           <h3 className="text-lg font-semibold mb-2">Feedback</h3>
@@ -159,7 +160,7 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
           </div>
           <p className="text-sm text-gray-600 text-center mt-2">Suggestions</p>
           <ArrowRight className="absolute bottom-2 right-2 text-gray-400" size={24} />
-        </button>
+        </Link>
 
         {/* Widget D: Generate Quiz */}
         <div className="col-span-2 flex flex-col items-center justify-center text-center mt-4">
@@ -167,11 +168,11 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
             <FerrisWheel size={24} />
             <span>Suggest Fun Activity!</span>
           </button>
-          <button className="w-3/4 my-2 py-4 bg-pink-500 text-white rounded-md shadow-lg hover:bg-pink-600 flex items-center justify-center gap-2 transition-colors">
-            <Link className='flex gap-2' to={`/recordings/${analysis.id}/quiz`}>
+          <Link className="w-3/4 my-2 py-4 bg-pink-500 text-white rounded-md shadow-lg hover:bg-pink-600 flex items-center justify-center gap-2 transition-colors"
+          to={`/recordings/${analysis.id}/quiz`}>
+              <NotebookPen size={24} />
               <span>Generate Quiz</span>
-            </Link>
-          </button>
+          </Link>
         </div>
       </div>
       {showShareDialog && (
@@ -180,12 +181,12 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
           <div className="absolute top-2 right-2">
               <X size={24} onClick={() => setShowShareDialog(false)} />
           </div>
-            <p className="text-2xl text-center font-semibold mt-8 mb-2">Share Via:</p>
-            <div className="flex items-center justify-center px-8 mt-4">
-              <img src="/src/assets/wa.png" className="mx-auto w-12 h-12 mx-4" />
-              <img src="/src/assets/fb.png" className="mx-auto w-12 h-12 mr-4"/>
-              <img src="/src/assets/insta.png" className="mx-auto w-14 h-14 mr-4"/>
-              <img src="/src/assets/email.png" className="mx-auto w-11 h-11 mr-4"/>
+            <p className="text-2xl text-center font-semibold mt-2 mb-2">Share Via:</p>
+            <div className="flex items-center justify-center px-8 mt-4 gap-4">
+              <img src="/src/assets/wa.png" className="mx-auto w-12 h-12" />
+              <img src="/src/assets/fb.png" className="mx-auto w-12 h-12"/>
+              <img src="/src/assets/insta.png" className="mx-auto w-14 h-14"/>
+              <img src="/src/assets/email.png" className="mx-auto w-11 h-11"/>
             </div>
           </div>
         </div>
