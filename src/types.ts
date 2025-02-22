@@ -49,6 +49,7 @@ export interface RecordingDetails {
   notes?: string;
   audioBlob?: Blob;
   timestamp: string;
+  language: string;
   r_depth: number;
   r_overall_score: number;
   r_structure: number;

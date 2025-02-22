@@ -11,6 +11,7 @@ export default function LoginPage() {
     // Simulate login success
     if (username && password) {
       if (username === 'pallavi') {
+        console.log('pallavi');
         localStorage.setItem('role', 'teacher');
         localStorage.setItem('name', 'Pallavi');
         localStorage.setItem('state', 'DEL');
@@ -24,6 +25,7 @@ export default function LoginPage() {
         localStorage.setItem('language', 'english');
       }
       else if (username === 'meenakshi') {
+        console.log('meenakshi');
         localStorage.setItem('role', 'teacher');
         localStorage.setItem('name', 'Meenakshi');
         localStorage.setItem('state', 'UP');

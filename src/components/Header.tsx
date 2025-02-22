@@ -4,13 +4,14 @@ import { Link } from 'react-router-dom';
 
 export default function Header({ pageTitle }: { pageTitle: string }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [language, setLanguage] = useState('english');
+  const [language, setLanguage] = useState(localStorage.getItem('language') || 'english');
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
 
   const handleLanguageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    localStorage.setItem('language', event.target.value);
     setLanguage(event.target.value);
   };
 
@@ -31,7 +32,7 @@ export default function Header({ pageTitle }: { pageTitle: string }) {
             <select
               value={language}
               onChange={handleLanguageChange}
-              className="p-2 bg-white-200 text-sm rounded-md focus:outline-none"
+              className="p-2 bg-white-200 text-sm rounded-md text-right focus:outline-none"
             >
               <option value="english">English</option>
               <option value="hindi">हिंदी</option>

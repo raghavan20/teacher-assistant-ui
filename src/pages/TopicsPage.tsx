@@ -40,10 +40,10 @@ export default function LessonPlanMetricsPage() {
         <p className='text-lg font-medium px-2'>Back</p>
       </div>
       <div className="mb-12">
-        <h2 className="text-xl font-bold mb-8 text-center">Topics Covered</h2>
-        <div className="pl-5">
+        <h2 className="text-xl font-bold mb-4 px-6">Topics Covered</h2>
+        <div className="px-8">
           {lesson_plan_metrics?.list_of_topics_covered.map((topic, index) => (
-            <div className='mt-8 mb-4'>
+            <div className='mt-2 mb-4'>
               {getTopicTag(topic)}
               <p key={index} className="">{topic}</p>
             </div>
@@ -54,11 +54,11 @@ export default function LessonPlanMetricsPage() {
         {(no_of_missed_topics === 0) ? (
           <></>
          ) : (
-          <div className='mb-12'>
-          <h2 className="text-xl font-bold mb-8 text-center">Topics For Next Time</h2>
-          <ul className="pl-5">
+          <div className='mb-6'>
+          <h2 className="text-xl font-bold mb-4 px-6">Topics For Next Time</h2>
+          <ul className="px-8">
             {list_of_missed_topics.map((topic, index) => (
-              <p key={index} className="mt-8 mb-4">{topic}</p>
+              <p key={index} className="mt-2 mb-2">{topic}</p>
             ))}
           </ul>
           </div>

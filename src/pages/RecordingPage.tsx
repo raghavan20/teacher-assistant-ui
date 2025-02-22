@@ -12,6 +12,8 @@ export default function RecordingPage() {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [selectedSubject, setSelectedSubject] = useState('');
   const [selectedGrade, setSelectedGrade] = useState('');
+  const [selectedTopic, setSelectedTopic] = useState('');
+  const [lessonNotes, setLessonNotes] = useState('');
   const [loading, setLoading] = useState(false);
   const [recordingState, setRecordingState] = useState<RecordingState>({
     isRecording: false,
@@ -108,8 +110,19 @@ export default function RecordingPage() {
     formData.append('board', details.board || '');
     formData.append('district', details.district || '');
     formData.append('block', details.block || '');
-    formData.append('language', localStorage.getItem('language') || 'english');
-    formData.append('user_id', '1');
+    formData.append('language', localStorage.getItem('language') || '');
+    formData.append('user_id', localStorage.getItem('userId') || '');
+
+    console.log(details.topic);
+    console.log('Uploading recording:', formData.get('topic'));
+    console.log('Uploading recording:', formData.get('subject'));
+    console.log('Uploading recording:', formData.get('grade'));
+    console.log('Uploading recording:', formData.get('state'));
+    console.log('Uploading recording:', formData.get('board'));
+    console.log('Uploading recording:', formData.get('district'));
+    console.log('Uploading recording:', formData.get('block'));
+    console.log('Uploading recording:', formData.get('language'));
+    console.log('Uploading recording:', formData.get('user_id'));
 
     try {
       const response = await fetch('http://localhost:5000/recordings', {
@@ -232,6 +245,8 @@ export default function RecordingPage() {
                   name="topic"
                   required
                   className="w-full px-3 py-2 bg-white text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={selectedTopic}
+                  onChange={(e) => setSelectedTopic(e.target.value)}
                 >
                   <option value="" disabled selected className="text-gray-400">Select Topic</option>
                   <option value="nouns">Nouns</option>
@@ -251,6 +266,8 @@ export default function RecordingPage() {
                   name="topic"
                   required
                   className="w-full px-3 py-2 bg-white text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={selectedTopic}
+                  onChange={(e) => setSelectedTopic(e.target.value)}
                 >
                   <option value="" disabled selected className="text-gray-400">Select Topic</option>
                   <option value="consumer_literacy">Consumer Literacy</option>
@@ -268,6 +285,8 @@ export default function RecordingPage() {
                   required
                   className="w-full px-3 py-2 bg-white text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="Enter Topic"
+                  value={selectedTopic}
+                  onChange={(e) => setSelectedTopic(e.target.value)}
                 />
               )}
             </div>
@@ -285,9 +304,11 @@ export default function RecordingPage() {
               <textarea
                 id="notes"
                 name="notes"
-                rows={10}
+                rows={4}
                 className="w-full px-3 py-2 border border-gray-300 text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Add Your Lesson Plan or Generate"
+                value={lessonNotes}
+                onChange={(e) => setLessonNotes(e.target.value)}
               />
             </div>
             <div className='flex justify-center'>

@@ -38,7 +38,7 @@ export default function SuggestionsPage() {
       </div>
       {suggestionsData.map((suggestion, index) => (
         <div key={index} className="mb-12">
-          <p className="text-md font-bold text-green-500">{suggestion.pedagogy_step.toUpperCase()}</p>
+          <p className="text-md font-bold text-blue-500">{suggestion.pedagogy_step.toUpperCase()}</p>
           <h2 className="text-xl font-bold mb-2">{suggestion.title}</h2>
           <p className="text-md mb-2">{suggestion.description}</p>
         </div>

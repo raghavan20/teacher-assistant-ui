@@ -1,6 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { ArrowLeft } from 'lucide-react';
 import { Card, CardContent, CardHeader, Typography } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import Header from '../components/Header.tsx';
@@ -33,29 +34,39 @@ export default function QuizPage() {
     fetchQuiz();
   }, [recordingId]);
 
-  if (loading) return <CircularProgress className="block mx-auto my-10" />;
-  if (quiz.length === 0) return <Typography variant="h6" className="text-center">No quiz questions available.</Typography>;
+  if (loading) {
+    return (
+      <div className="min-h-screen px-4 py-4 flex flex-col">
+        <div className="justify-center items-center my-auto">
+          <p className="text-4xl text-center my-8 animate-bounce">Generating</p>
+          <p className="text-4xl text-center my-8 animate-bounce">Quiz..</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-2xl mx-auto p-4">
-      <Header pageTitle="Lesson Analysis" />
-      <Typography variant="h4" gutterBottom>
-        Quiz
-      </Typography>
+      <Header pageTitle="Quiz" />
+      <div className='flex items-center mb-8'>
+        <ArrowLeft className='cursor-pointer' onClick={() => window.history.back()} />
+        <p className='text-lg font-medium px-2'>Back</p>
+      </div>
       {quiz.map((item, index) => (
-        <Card key={index} sx={{ mb: 2, p: 2 }}>
-          <CardHeader title={item.question || "Question not available"} />
-          <CardContent>
-            <div className="mt-2">
-              {Array.isArray(item.options) && item.options.map((option, i) => (
-                <Typography key={i} variant="body1">• {option}</Typography>
-              ))}
-            </div>
-            <Typography variant="subtitle1" sx={{ mt: 2, fontWeight: "bold" }}>
-              Answer: {item.answer}
-            </Typography>
-          </CardContent>
-        </Card>
+        <div key={index} className="px-6 mb-12">
+          <p className="text-md font-semibold mb-4">{item.question}</p>
+          <ul className="mt-2">
+            {Array.isArray(item.options) && item.options.map((option, i) => (
+              <div className='flex gap-2 my-2'>
+                <a key={i} className='text-sm pl-4'>{i + 1}.</a>
+                <a className='text-sm pl-2'>{option}</a>
+              </div>
+            ))}
+          </ul>
+          <p className='text-sm font-semibold mt-4'>
+            Answer: {item.answer}
+          </p>
+        </div>
       ))}
     </div>
   );
