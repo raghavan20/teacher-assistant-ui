@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Share } from 'lucide-react';
 import { Card, CardContent, CardHeader, Typography } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import Header from '../components/Header.tsx';
@@ -48,9 +48,18 @@ export default function QuizPage() {
   return (
     <div className="max-w-2xl mx-auto p-4">
       <Header pageTitle="Quiz" />
-      <div className='flex items-center mb-8'>
-        <ArrowLeft className='cursor-pointer' onClick={() => window.history.back()} />
-        <p className='text-lg font-medium px-2'>Back</p>
+      <div className='flex justify-between mb-8'>
+        <div className='flex items-center gap-2'>
+          <ArrowLeft className='cursor-pointer' onClick={() => window.history.back()} />
+          <p className='text-lg font-medium px-2'>Back</p>
+        </div>
+        <div className='mr-4'>
+          <button
+            className="p-2 right-2 bg-gray-100 rounded-full hover:bg-gray-300 transition-colors"
+          >
+            <Share size={24} />
+          </button>
+        </div>
       </div>
       {quiz.map((item, index) => (
         <div key={index} className="px-6 mb-12">
