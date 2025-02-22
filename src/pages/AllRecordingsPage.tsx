@@ -30,18 +30,38 @@ export default function AllRecordindsPage() {
     grade: '3',
     timestamp: new Date().toISOString(),
     analysis: recordingAnalysis1,
+    state: 'DEL',
+    board: 'CBSE',
+    district: 'New Delhi',
+    block: 'Saket',
+    topic: 'Grammar',
+    notes: 'Focus on sentence structure',
   };
   const sampleRecording2: RecordingDetails = {
     id: 1,
     subject: 'Science',
     grade: '6',
     timestamp: new Date().toISOString(),
+    analysis: recordingAnalysis1,
+    state: 'DEL',
+    board: 'CBSE',
+    district: 'New Delhi',
+    block: 'Saket',
+    topic: 'Physics',
+    notes: 'Focus on sentence structure',
   };
   const sampleRecording3: RecordingDetails = {
     id: 1,
     subject: 'English',
     grade: '7',
     timestamp: new Date().toISOString(),
+    analysis: recordingAnalysis1,
+    state: 'DEL',
+    board: 'CBSE',
+    district: 'New Delhi',
+    block: 'Saket',
+    topic: 'Grammar',
+    notes: 'Focus on sentence structure',
   };
   const [recordings, setRecordings] = useState<RecordingDetails[]>([]);
   const [searchTerm, setSearchTerm] = useState('');

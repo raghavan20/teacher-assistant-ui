@@ -24,8 +24,14 @@ export interface RecordingState {
 
 export interface RecordingDetails {
   id: number;
+  state: string;
+  board: string;
+  district: string;
+  block: string;
   subject: string;
   grade: string;
+  topic: string;
+  notes: string;
   audioBlob?: Blob;
   timestamp: string;
   analysis?: RecordingAnalysis;

@@ -9,6 +9,8 @@ export default function RecordingPage() {
   const [details, setDetails] = useState<Partial<RecordingDetails>>({});
   const [showRecorder, setShowRecorder] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [selectedSubject, setSelectedSubject] = useState('');
+  const [selectedGrade, setSelectedGrade] = useState('');
   const [recordingState, setRecordingState] = useState<RecordingState>({
     isRecording: false,
     audioUrl: null,
@@ -24,7 +26,13 @@ export default function RecordingPage() {
     const formData = new FormData(e.currentTarget);
     setDetails({
       subject: formData.get('subject') as string,
+      state: localStorage.getItem('state') as string,
+      board: localStorage.getItem('board') as string,
+      district: localStorage.getItem('district') as string,
+      block: localStorage.getItem('block') as string,
       grade: formData.get('grade') as string,
+      topic: formData.get('topic') as string,
+      notes: formData.get('notes') as string,
       timestamp: new Date().toISOString()
     });
     setShowRecorder(true);
@@ -163,15 +171,17 @@ export default function RecordingPage() {
                 name="subject"
                 required
                 className="w-full px-3 py-2 bg-white text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={selectedSubject}
+                onChange={(e) => setSelectedSubject(e.target.value)}
               >
                 <option value="" disabled selected className="text-gray-400">Select Subject</option>
-                <option value="English">English</option>
-                <option value="Hindi">Hindi</option>
-                <option value="Mathematics">Mathematics</option>
-                <option value="Science">Science</option>
-                <option value="History">History</option>
-                <option value="Geography">Geography</option>
-                <option value="Economics">Economics</option>
+                <option value="english">English</option>
+                <option value="hindi">Hindi</option>
+                <option value="mathematics">Mathematics</option>
+                <option value="science">Science</option>
+                <option value="history">History</option>
+                <option value="geography">Geography</option>
+                <option value="economics">Economics</option>
               </select>
             </div>
 
@@ -184,6 +194,8 @@ export default function RecordingPage() {
                 name="grade"
                 required
                 className="w-full px-3 py-2 bg-white text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={selectedGrade}
+                onChange={(e) => setSelectedGrade(e.target.value)}
               >
                 <option value="" disabled selected className="text-gray-400">Select Grade</option>
                 <option value="1">Grade 1</option>
@@ -197,6 +209,55 @@ export default function RecordingPage() {
                 <option value="9">Grade 9</option>
                 <option value="10">Grade 10</option>
               </select>
+            </div>
+            <div>
+              <label htmlFor="topic" className="block text-md font-bold text-gray-700 mt-8 mb-2">
+                Topic
+              </label>
+              {selectedSubject === 'hindi' && (
+                <select
+                  id="topic"
+                  name="topic"
+                  required
+                  className="w-full px-3 py-2 bg-white text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="" disabled selected className="text-gray-400">Select Topic</option>
+                  <option value="nouns">Nouns</option>
+                  <option value="pronouns">Pronouns</option>
+                  <option value="adjectives">Adjectives</option>
+                  <option value="verbs">Verbs</option>
+                  <option value="conjunctions">Conjunctions</option>
+                  <option value="poems">Poems</option>
+                  <option value="story">Story</option>
+                  <option value="speaking">Speaking</option>
+                  <option value="writing">Writing</option>
+                </select>
+               )} 
+               {selectedSubject === 'economics' && (
+                <select
+                  id="topic"
+                  name="topic"
+                  required
+                  className="w-full px-3 py-2 bg-white text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="" disabled selected className="text-gray-400">Select Topic</option>
+                  <option value="consumer_literacy">Consumer Literacy</option>
+                  <option value="demand_supply">Demand & Supply</option>
+                  <option value="public_goods">Public Goods</option>
+                  <option value="externalities">Externalities</option>
+                  <option value="interest_rates">Interest Rates</option>
+                </select>
+              )} 
+              {selectedSubject !== 'hindi' && selectedSubject !== 'economics' && (
+                <input
+                  type="text"
+                  id="topic"
+                  name="topic"
+                  required
+                  className="w-full px-3 py-2 bg-white text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Enter Topic"
+                />
+              )}
             </div>
 
             <div>

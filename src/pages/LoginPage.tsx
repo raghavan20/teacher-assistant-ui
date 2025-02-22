@@ -13,6 +13,10 @@ export default function LoginPage() {
       if (username === 'pallavi') {
         localStorage.setItem('role', 'teacher');
         localStorage.setItem('name', 'Pallavi');
+        localStorage.setItem('state', 'DEL');
+        localStorage.setItem('district', 'New Delhi');
+        localStorage.setItem('board', 'CBSE');
+        localStorage.setItem('block', 'Saket');
         localStorage.setItem('userId', '1');
         localStorage.setItem('totalLessons', '103');
         localStorage.setItem('totalStars', '74');
@@ -21,6 +25,10 @@ export default function LoginPage() {
       else if (username === 'meenakshi') {
         localStorage.setItem('role', 'teacher');
         localStorage.setItem('name', 'Meenakshi');
+        localStorage.setItem('state', 'UP');
+        localStorage.setItem('board', 'UPMSP');
+        localStorage.setItem('district', 'Bijnor');
+        localStorage.setItem('block', 'Dhampur');
         localStorage.setItem('userId', '2');
         localStorage.setItem('totalLessons', '87');
         localStorage.setItem('totalStars', '63');
