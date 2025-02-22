@@ -8,7 +8,7 @@ export default function AllRecordindsPage() {
 
   const recordingAnalysis1: RecordingAnalysis = {
     grade: '3',
-    id: 4,
+    id: 1,
     r_depth: 4.0,
     r_full_response_json: {
       feedback: 'Great structure!',
@@ -25,20 +25,20 @@ export default function AllRecordindsPage() {
   };
 
   const sampleRecording1: RecordingDetails = {
-    id: 4,
+    id: 1,
     subject: 'Hindi',
     grade: '3',
     timestamp: new Date().toISOString(),
     analysis: recordingAnalysis1,
   };
   const sampleRecording2: RecordingDetails = {
-    id: 2,
+    id: 1,
     subject: 'Science',
     grade: '6',
     timestamp: new Date().toISOString(),
   };
   const sampleRecording3: RecordingDetails = {
-    id: 3,
+    id: 1,
     subject: 'English',
     grade: '7',
     timestamp: new Date().toISOString(),

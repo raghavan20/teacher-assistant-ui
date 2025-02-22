@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Info, ArrowRight, Share, PlayCircle, FerrisWheel, NotebookPen } from 'lucide-react';
 import type { RecordingAnalysis } from '../types';
 import StarRating from './StarRating.tsx';
-import { formatDate } from '../utilities.tsx';
+import { formatDate, toSentenceCase } from '../utilities.tsx';
 import DonutChart from './DonutChart.tsx';
 
 interface AnalysisWidgetProps {
@@ -17,6 +17,9 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
   const [showShareDialog, setShowShareDialog] = useState(false);
   const [textVisible, setTextVisible] = useState(false);
   const [streak, setStreak] = useState(5); // Example streak value
+  const [structureStars, setStructureStars] = useState(0); // Example structure value
+  const [depthStars, setDepthStars] = useState(0); // Example depth value
+  const [styleStars, setStyleStars] = useState(0); // Example style value
 
   useEffect(() => {
     let selectedText = textOptions[3]; // Default to "Getting There!"
@@ -28,6 +31,36 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
       selectedText = textOptions[2]; // "Nice!"
     }
     setCurrentText(selectedText);
+
+    if(analysis.r_structure >= 75) {
+      setStructureStars(3);
+    } else if(analysis.r_structure >= 50) {
+      setStructureStars(2);
+    } else if(analysis.r_structure >= 25) {
+      setStructureStars(1);
+    } else {
+      setStructureStars(0);
+    }
+
+    if (analysis.r_depth >= 75) {
+      setDepthStars(3);
+    } else if (analysis.r_depth >= 50) {
+      setDepthStars(2);
+    } else if (analysis.r_depth >= 25) {
+      setDepthStars(1);
+    } else {
+      setDepthStars(0);
+    }
+
+    if (analysis.r_style >= 75) {
+      setStyleStars(3);
+    } else if (analysis.r_style >= 50) {
+      setStyleStars(2);
+    } else if (analysis.r_style >= 25) {
+      setStyleStars(1);
+    } else {
+      setStyleStars(0);
+    }
 
     // Set a timeout to show the text after the DonutChart animation is complete
     const timeout = setTimeout(() => {
@@ -55,7 +88,7 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div className="col-span-2">
-          <p className="text-lg font-semibold text-gray-800">{analysis.subject} - Grade {analysis.grade}</p>
+          <p className="text-lg font-semibold text-gray-800">{toSentenceCase(analysis.subject)} - Grade {analysis.grade}</p>
           <p className="text-sm font-regular text-gray-400">{formatDate(analysis.timestamp)}</p>
         </div>
         {/* Widget A: Overall Score */}
@@ -69,21 +102,21 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
               <DonutChart percentage={analysis.r_overall_score} />
             </div>
             <div className="flex flex-col items-center">
-              <div className={`text-4xl font-bold text-black-500 transition-all duration-1000 ${textVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}`}>
+              <div className={`text-2xl text-center font-bold text-black-500 transition-all duration-1000 ${textVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}`}>
                 {currentText}
               </div>
               <div className="mt-4 mb-4 space-y-2">
                 <div className="flex justify-between items-center">
                   <span className="text-sm font-semibold text-gray-600 mr-2">Structure</span>
-                  <StarRating value={analysis.r_structure} />
+                  <StarRating value={structureStars} />
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-sm font-semibold text-gray-600 mr-2">Depth</span>
-                  <StarRating value={analysis.r_depth} />
+                  <StarRating value={depthStars} />
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-sm font-semibold text-gray-600 mr-2">Style</span>
-                  <StarRating value={analysis.r_style} />
+                  <StarRating value={styleStars} />
                 </div>
               </div>
             </div>
