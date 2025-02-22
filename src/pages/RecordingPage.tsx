@@ -108,6 +108,7 @@ export default function RecordingPage() {
     formData.append('board', details.board || '');
     formData.append('district', details.district || '');
     formData.append('block', details.block || '');
+    formData.append('language', localStorage.getItem('language') || 'english');
     formData.append('user_id', '1');
 
     try {

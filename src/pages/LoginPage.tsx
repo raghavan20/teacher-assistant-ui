@@ -21,6 +21,7 @@ export default function LoginPage() {
         localStorage.setItem('totalLessons', '103');
         localStorage.setItem('totalStars', '74');
         localStorage.setItem('streakDays', '23');
+        localStorage.setItem('language', 'english');
       }
       else if (username === 'meenakshi') {
         localStorage.setItem('role', 'teacher');
@@ -33,6 +34,7 @@ export default function LoginPage() {
         localStorage.setItem('totalLessons', '87');
         localStorage.setItem('totalStars', '63');
         localStorage.setItem('streakDays', '7');
+        localStorage.setItem('language', 'hindi');
       }
       localStorage.setItem('username', username);
       navigate('/profile'); // Redirect to home page after login
