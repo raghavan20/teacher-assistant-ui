@@ -12,8 +12,8 @@ export default function HomePage() {
   const pageTitle = "My Profile";
   const teacherName = localStorage.getItem('name') || 'Pallavi';
   const [totalLessons, setTotalLessons] = useState<number>(0);
-  const totalStars = localStorage.getItem('totalStars') || 74;
-  const streakDays = localStorage.getItem('streakDays') || 23;
+  const [totalStars, setTotalStars] = useState<number>(0);
+  const [streakDays, setStreakDays] = useState<number>(0);
   const userId = localStorage.getItem('userId');
 
   useEffect(() => {
@@ -33,8 +33,9 @@ export default function HomePage() {
         console.error("Error fetching recordings:", error);
       }
     };
-
     fetchTotalLessons();
+    setTotalStars(totalLessons * 6);
+    setStreakDays(Math.floor(totalLessons * 0.6));
   }, []);
 
   const data = {
