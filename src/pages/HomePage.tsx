@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import { Plus, BookOpenCheck, Star, Flame } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Bar } from 'react-chartjs-2';
@@ -7,32 +8,34 @@ import Header from '../components/Header';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const mockAnalyses = [
-  {
-    grade: "10th",
-    id: 4,
-    r_depth: 4.0,
-    r_full_response_json: {
-      feedback: "Great structure!"
-    },
-    r_overall_score: 85.5,
-    r_structure: 4.5,
-    r_style: 4.2,
-    r_suggestions_count: 3,
-    r_topics_covered: 4,
-    r_topics_required: 5,
-    subject: "Mathematics",
-    timestamp: "2025-02-21T03:42:36.766739",
-    user_id: 1
-  }
-];
-
 export default function HomePage() {
   const pageTitle = "My Profile";
   const teacherName = localStorage.getItem('name') || 'Pallavi';
-  const totalLessons = localStorage.getItem('totalLessons') || 103;
+  const [totalLessons, setTotalLessons] = useState<number>(0);
   const totalStars = localStorage.getItem('totalStars') || 74;
   const streakDays = localStorage.getItem('streakDays') || 23;
+  const userId = localStorage.getItem('userId');
+
+  useEffect(() => {
+    const fetchTotalLessons = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/recordings?user_id=${userId}`, {
+          method: "GET"
+        });
+        const data = await response.json();
+        if (Array.isArray(data)) {
+          setTotalLessons(data.length);
+        } else {
+          console.error("Unexpected API response format:", data);
+          setTotalLessons(0);
+        }
+      } catch (error) {
+        console.error("Error fetching recordings:", error);
+      }
+    };
+
+    fetchTotalLessons();
+  }, []);
 
   const data = {
     labels: ['S', 'M', 'T', 'W', 'Th', 'F', 'Sa'],
