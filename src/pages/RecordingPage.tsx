@@ -2,7 +2,9 @@ import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Mic, Square, Sparkles, Trash, Save } from 'lucide-react';
 import type { RecordingState, RecordingDetails } from '../types';
+import { toSentenceCase } from '../utils.tsx';
 import Header from '../components/Header';
+import loadingGif from '../assets/analyzing.gif'; // Make sure to have a loading.gif in your assets folder
 
 export default function RecordingPage() {
   const navigate = useNavigate();
@@ -11,6 +13,7 @@ export default function RecordingPage() {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [selectedSubject, setSelectedSubject] = useState('');
   const [selectedGrade, setSelectedGrade] = useState('');
+  const [loading, setLoading] = useState(true);
   const [recordingState, setRecordingState] = useState<RecordingState>({
     isRecording: false,
     audioUrl: null,
@@ -95,14 +98,21 @@ export default function RecordingPage() {
   const handleAnalyze = async () => {
     if (!details.subject || !details.grade || !details.audioBlob) return;
 
+    setLoading(true); // Set loading to true when the API call starts
+
     const formData = new FormData();
     formData.append('recording', details.audioBlob, 'recording.webm');
     formData.append('subject', details.subject);
     formData.append('grade', details.grade);
+    formData.append('topic', details.topic || '');
+    formData.append('state', details.state || '');
+    formData.append('board', details.board || '');
+    formData.append('district', details.district || '');
+    formData.append('block', details.block || '');
     formData.append('user_id', '1');
 
     try {
-      const response = await fetch('http://localhost:5000/upload-recording', {
+      const response = await fetch('http://localhost:5000/recordings', {
         method: 'POST',
         body: formData
       });
@@ -116,10 +126,12 @@ export default function RecordingPage() {
           analysis
         });
         localStorage.setItem('recordings', JSON.stringify(recordings));
-        navigate(`/recording/${analysis.id}`);
+        navigate(`/recordings/${analysis.recording_id}/analysis`);
       }
     } catch (error) {
       console.error('Error uploading recording:', error);
+    } finally {
+      setLoading(false); // Set loading to false when the API call completes
     }
   };
 
@@ -232,8 +244,8 @@ export default function RecordingPage() {
                   <option value="speaking">Speaking</option>
                   <option value="writing">Writing</option>
                 </select>
-               )} 
-               {selectedSubject === 'economics' && (
+              )}
+              {selectedSubject === 'economics' && (
                 <select
                   id="topic"
                   name="topic"
@@ -247,7 +259,7 @@ export default function RecordingPage() {
                   <option value="externalities">Externalities</option>
                   <option value="interest_rates">Interest Rates</option>
                 </select>
-              )} 
+              )}
               {selectedSubject !== 'hindi' && selectedSubject !== 'economics' && (
                 <input
                   type="text"
@@ -294,96 +306,104 @@ export default function RecordingPage() {
 
   return (
     <div className="min-h-screen px-4 py-4 flex flex-col">
-      <Header pageTitle="Start New Lesson" />
-      <div className="flex-grow flex items-center justify-center">
-        <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-lg">
-          <div className="text-center mb-4">
-            <h2 className="text-2xl font-semibold">{details.subject}</h2>
-            <h3 className="text-xl text-gray-600">Grade {details.grade}</h3>
+        {loading ? (
+          <div className="justify-center items-center my-auto">
+            <img src='../assets/analyze.gif' alt="Loading..." className="mx-auto" />
+            <p className="text-4xl text-center my-8 animate-bounce">Analyzing..</p>
           </div>
+        ) : (
+          <>
+          <Header pageTitle="Start New Lesson" />
+          <div className="flex-grow flex items-center justify-center">
+            <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-lg">
+              <div className="text-center mb-4">
+                <h2 className="text-2xl font-semibold">{toSentenceCase(details.subject || '')}</h2>
+                <h3 className="text-xl text-gray-600">Grade {details.grade}</h3>
+              </div>
+              <div className="text-center mt-8 mb-8">
+                <div className="text-2xl font-mono mb-2">
+                  {formatTime(recordingState.duration)}
+                </div>
+              </div>
 
-          <div className="text-center mt-8 mb-8">
-            <div className="text-2xl font-mono mb-2">
-              {formatTime(recordingState.duration)}
+              <div className="flex mt-6 mb-6 justify-center mb-4">
+                {!recordingState.isRecording && !recordingState.audioUrl ? (
+                  <button
+                    onClick={startRecording}
+                    className="p-8 my-12 bg-red-500 text-white rounded-full shadow-lg hover:bg-red-600 transition-colors"
+                  >
+                    <Mic size={48} />
+                  </button>
+                ) : null}
+
+                {recordingState.isRecording ? (
+                  <button
+                    onClick={stopRecording}
+                    className="p-8 my-12 bg-gray-600 text-white rounded-full shadow-lg hover:bg-gray-700 transition-colors"
+                  >
+                    <Square size={48} />
+                  </button>
+                ) : null
+                }
+              </div>
+
+              <div className="flex mt-6 mb-6 justify-center mb-4">
+                {!recordingState.isRecording && !recordingState.audioUrl ? (
+                  <div className="items-center justify-center w-full">
+                    <div className='text-center text-lg text-gray-500'>
+                      Or Upload a Recording...
+                    </div>
+                    <div className="flex justify-center items-center py-8">
+                      <label className="cursor-pointer">
+                        <input
+                          type="file"
+                          className="hidden"
+                          accept="audio/*"
+                          onChange={handleFileUpload}
+                        />
+                        <div className="bg-blue-500 text-white text-center py-3 px-6 rounded-lg shadow-lg transform transition duration-300 ease-in-out hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                          Choose File
+                        </div>
+                        <p className='text-sm text-gray-400 my-2'>Supports MP3, WAV, OGG</p>
+                      </label>
+                    </div>
+                  </div>
+
+                ) : null}
+              </div>
+
+              {recordingState.audioUrl && (
+                <>
+                  <audio src={recordingState.audioUrl} controls className="w-full mb-4" />
+                  <div className="mt-12">
+                    <button
+                      onClick={handleAnalyze}
+                      className="w-full py-4 mt-16 mb-2 font-semibold bg-blue-500 text-white rounded-md hover:bg-blue-600 flex items-center justify-center gap-2 transition-colors"
+                    >
+                      <Sparkles className='fill-current' size={20} />
+                      <span>Analyze Lesson Now</span>
+                    </button>
+                    <button
+                      onClick={handleSave}
+                      className="w-full py-4 mt-2 mb-16 font-semibold bg-blue-300 text-white rounded-md hover:bg-blue-600 flex items-center justify-center gap-2 transition-colors"
+                    >
+                      <Save className='' size={20} />
+                      <span>Save & Analyze Later</span>
+                    </button>
+                    <button
+                      onClick={() => setShowDeleteConfirm(true)}
+                      className="w-full py-4 mt-2 font-semibold bg-gray-300 text-white rounded-md hover:bg-red-600 flex items-center justify-center gap-2 transition-colors"
+                    >
+                      <Trash className='text-red-500' size={20} />
+                      <span className='text-red-500'>Delete</span>
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           </div>
-
-          <div className="flex mt-6 mb-6 justify-center mb-4">
-            {!recordingState.isRecording && !recordingState.audioUrl ? (
-              <button
-                onClick={startRecording}
-                className="p-8 my-12 bg-red-500 text-white rounded-full shadow-lg hover:bg-red-600 transition-colors"
-              >
-                <Mic size={48} />
-              </button>
-            ) : null}
-
-            {recordingState.isRecording ? (
-              <button
-                onClick={stopRecording}
-                className="p-8 my-12 bg-gray-600 text-white rounded-full shadow-lg hover:bg-gray-700 transition-colors"
-              >
-                <Square size={48} />
-              </button>
-            ) : null
-            }
-          </div>
-
-          <div className="flex mt-6 mb-6 justify-center mb-4">
-            {!recordingState.isRecording && !recordingState.audioUrl ? (
-              <div className="items-center justify-center w-full">
-                <div className='text-center text-lg text-gray-500'>
-                  Or Upload a Recording...
-                </div>
-                <div className="flex justify-center items-center py-8">
-                  <label className="cursor-pointer">
-                    <input
-                      type="file"
-                      className="hidden"
-                      accept="audio/*"
-                      onChange={handleFileUpload}
-                    />
-                    <div className="bg-blue-500 text-white text-center py-3 px-6 rounded-lg shadow-lg transform transition duration-300 ease-in-out hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                      Choose File
-                    </div>
-                    <p className='text-sm text-gray-400 my-2'>Supports MP3, WAV, OGG</p>
-                  </label>
-                </div>
-              </div>
-
-            ) : null}
-          </div>
-
-          {recordingState.audioUrl && (
-            <>
-              <audio src={recordingState.audioUrl} controls className="w-full mb-4" />
-              <div className="mt-12">
-                <button
-                  onClick={handleAnalyze}
-                  className="w-full py-4 mt-16 mb-2 font-semibold bg-blue-500 text-white rounded-md hover:bg-blue-600 flex items-center justify-center gap-2 transition-colors"
-                >
-                  <Sparkles className='fill-current' size={20} />
-                  <span>Analyze Lesson Now</span>
-                </button>
-                <button
-                  onClick={handleSave}
-                  className="w-full py-4 mt-2 mb-16 font-semibold bg-blue-300 text-white rounded-md hover:bg-blue-600 flex items-center justify-center gap-2 transition-colors"
-                >
-                  <Save className='' size={20} />
-                  <span>Save & Analyze Later</span>
-                </button>
-                <button
-                  onClick={() => setShowDeleteConfirm(true)}
-                  className="w-full py-4 mt-2 font-semibold bg-gray-300 text-white rounded-md hover:bg-red-600 flex items-center justify-center gap-2 transition-colors"
-                >
-                  <Trash className='text-red-500' size={20} />
-                  <span className='text-red-500'>Delete</span>
-                </button>
-              </div>
-            </>
+          </>
           )}
-        </div>
-      </div>
       {showDeleteConfirm && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded-lg shadow-md mx-8">

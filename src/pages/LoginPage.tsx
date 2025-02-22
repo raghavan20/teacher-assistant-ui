@@ -45,7 +45,7 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-blue-100">
       <div className="bg-transparent p-8 rounded-lg w-full max-w-md">
         <div className="text-center mb-2">
-          <img src="../logo.png" alt="Logo" className="mx-auto w-84 h-68" />
+          <img src="../assets/logo.png" alt="Logo" className="mx-auto w-84 h-68" />
         </div>
         <form onSubmit={handleLogin} className="items-center justify-center">
           <div>

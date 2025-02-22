@@ -3,72 +3,30 @@ import { Link } from 'react-router-dom';
 import { Eye, Search, Sparkles } from 'lucide-react';
 import type { RecordingDetails, RecordingAnalysis } from '../types';
 import Header from '../components/Header';
+import { toSentenceCase } from '../utils';
 
-export default function AllRecordindsPage() {
-
-  const recordingAnalysis1: RecordingAnalysis = {
-    grade: '3',
-    id: 1,
-    r_depth: 4.0,
-    r_full_response_json: {
-      feedback: 'Great structure!',
-    },
-    r_overall_score: 85.5,
-    r_structure: 4.5,
-    r_style: 4.2,
-    r_suggestions_count: 3,
-    r_topics_covered: 4,
-    r_topics_required: 5,
-    subject: 'Hindi',
-    timestamp: '2025-02-21T03:42:36.766739',
-    user_id: 1,
-  };
-
-  const sampleRecording1: RecordingDetails = {
-    id: 1,
-    subject: 'Hindi',
-    grade: '3',
-    timestamp: new Date().toISOString(),
-    analysis: recordingAnalysis1,
-    state: 'DEL',
-    board: 'CBSE',
-    district: 'New Delhi',
-    block: 'Saket',
-    topic: 'Grammar',
-    notes: 'Focus on sentence structure',
-  };
-  const sampleRecording2: RecordingDetails = {
-    id: 1,
-    subject: 'Science',
-    grade: '6',
-    timestamp: new Date().toISOString(),
-    analysis: recordingAnalysis1,
-    state: 'DEL',
-    board: 'CBSE',
-    district: 'New Delhi',
-    block: 'Saket',
-    topic: 'Physics',
-    notes: 'Focus on sentence structure',
-  };
-  const sampleRecording3: RecordingDetails = {
-    id: 1,
-    subject: 'English',
-    grade: '7',
-    timestamp: new Date().toISOString(),
-    analysis: recordingAnalysis1,
-    state: 'DEL',
-    board: 'CBSE',
-    district: 'New Delhi',
-    block: 'Saket',
-    topic: 'Grammar',
-    notes: 'Focus on sentence structure',
-  };
+export default function AllRecordingsPage() {
   const [recordings, setRecordings] = useState<RecordingDetails[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    const storedRecordings = [sampleRecording1, sampleRecording2, sampleRecording3];
-    setRecordings(storedRecordings);
+    const fetchRecordings = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/recordings?user_id=${localStorage.getItem('userId')}`);
+        if (response.ok) {
+          const data: RecordingDetails[] = await response.json();
+          // Sort recordings by latest timestamp to oldest
+          data.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+          setRecordings(data);
+        } else {
+          console.error('Failed to fetch recordings');
+        }
+      } catch (error) {
+        console.error('Error fetching recordings:', error);
+      }
+    };
+
+    fetchRecordings();
   }, []);
 
   const filteredRecordings = recordings.filter(recording =>
@@ -99,11 +57,20 @@ export default function AllRecordindsPage() {
           >
             <div className="flex justify-between items-center">
               <div>
-                <h3 className="text-lg font-semibold">{recording.subject}</h3>
+                <h3 className="text-lg font-semibold">{toSentenceCase(recording.subject)}</h3>
                 <p className="text-gray-600">Grade {recording.grade}</p>
-                <p className="text-gray-400 text-sm">{new Date(recording.timestamp).toLocaleString()}</p>
+                <p className="text-gray-400 text-sm">{new Date(recording.timestamp).toLocaleString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}</p>
+                <p className="text-gray-400 text-sm">{new Date(recording.timestamp).toLocaleString('en-US', {
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  hour12: true, // 12-hour format with AM/PM
+                })}</p>
               </div>
-              {(recording.analysis) ? (
+              {recording.r_overall_score ? (
                 <Link className='flex gap-2' to={`/recordings/${recording.id}/analysis`}>
                   <Eye className="text-blue-500" />
                   <p className='text-blue-500'>View Analysis</p>

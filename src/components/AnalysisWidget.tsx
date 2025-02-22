@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Info, ArrowRight, Share, PlayCircle, FerrisWheel, NotebookPen } from 'lucide-react';
+import { Info, ArrowRight, Share, PlayCircle, FerrisWheel, NotebookPen, X } from 'lucide-react';
 import type { RecordingAnalysis } from '../types';
 import StarRating from './StarRating.tsx';
-import { formatDate, toSentenceCase } from '../utilities.tsx';
+import { formatDate, toSentenceCase } from '../utils.tsx';
 import DonutChart from './DonutChart.tsx';
 
 interface AnalysisWidgetProps {
@@ -169,6 +169,22 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
           </button>
         </div>
       </div>
+      {showShareDialog && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="w-3/4 relative bg-white p-6 rounded-lg shadow-md mx-2">
+          <div className="absolute top-2 right-2">
+              <X size={24} onClick={() => setShowShareDialog(false)} />
+          </div>
+            <p className="mb-8">Share this recording via:</p>
+            <div className="flex items-center justify-center mt-12">
+              <img src='../assets/wa.png' className="mx-auto w-1/4 mr-4"/>
+              <img src='../assets/fb.png' className="mx-auto w-1/4 mr-4"/>
+              <img src='../assets/insta.png' className="mx-auto w-1/4 mr-4"/>
+              <img src='../assets/email.png' className="mx-auto w-1/4"/>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
