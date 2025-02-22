@@ -23,6 +23,7 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
   const [structureStars, setStructureStars] = useState(0); // Example structure value
   const [depthStars, setDepthStars] = useState(0); // Example depth value
   const [styleStars, setStyleStars] = useState(0); // Example style value
+  const suggestionsData = analysis.r_full_response_json.suggestions;
 
   useEffect(() => {
     let selectedText = textOptions[3]; // Default to "Getting There!"
@@ -130,7 +131,7 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
 
         {/* Widget B: Topics */}
         <button 
-          onClick={() => console.log('Navigate to new page')}
+          onClick={() => navigate('/recordings/' + analysis.id + '/topics')}
           className="bg-white p-6 rounded-lg shadow-md relative text-left"
         >
           <h3 className="text-lg font-semibold mb-2">Topics</h3>
@@ -149,7 +150,7 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
 
         {/* Widget C: Suggestions */}
         <button
-          onClick={() => navigate(`/recordings`)}
+          onClick={() => navigate('/recordings/' + analysis.id + '/suggestions', { state: { suggestionsData } })}
           className="bg-white p-6 rounded-lg shadow-md relative text-left"
         >
           <h3 className="text-lg font-semibold mb-2">Feedback</h3>

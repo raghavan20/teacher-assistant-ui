@@ -12,7 +12,7 @@ export default function RecordingPage() {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [selectedSubject, setSelectedSubject] = useState('');
   const [selectedGrade, setSelectedGrade] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [recordingState, setRecordingState] = useState<RecordingState>({
     isRecording: false,
     audioUrl: null,

@@ -3,7 +3,21 @@ export interface RecordingAnalysis {
   id: number;
   r_depth: number;
   r_full_response_json: {
-    feedback: string;
+    predictions: {
+      lesson_outline: [string],
+      lesson_plan_metrics: {
+        list_of_all_topics: [string],
+        list_of_excellent_topics: [string],
+        list_of_good_topics: [string],
+        list_of_poor_topics: [string],
+        list_of_topics_covered: [string]
+      }
+    }
+    suggestions: [{
+      description: string;
+      pedagogy_step: string;
+      title: string;
+    }];
   };
   r_overall_score: number;
   r_structure: number;
@@ -42,6 +56,23 @@ export interface RecordingDetails {
   r_suggestions_count: number;
   r_topics_covered: number;
   r_topics_required: number;
+  r_full_response_json: {
+    predictions: {
+      lesson_outline: [string],
+      lesson_plan_metrics: {
+        list_of_all_topics: [string],
+        list_of_excellent_topics: [string],
+        list_of_good_topics: [string],
+        list_of_poor_topics: [string],
+        list_of_topics_covered: [string]
+      }
+    }
+    suggestions: [{
+      description: string;
+      pedagogy_step: string;
+      title: string;
+    }];
+  };
 }
 
 export interface StarRatingProps {
