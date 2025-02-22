@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Info, ArrowRight, Share, PlayCircle, FerrisWheel, NotebookPen, X } from 'lucide-react';
 import type { RecordingAnalysis } from '../types';
 import StarRating from './StarRating.tsx';
@@ -13,6 +14,7 @@ interface AnalysisWidgetProps {
 const textOptions = ["Awesome!", "Great!", "Nice!", "Getting There!"];
 
 export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidgetProps) {
+  const navigate = useNavigate();
   const [currentText, setCurrentText] = useState(textOptions[0]);
   const [showShareDialog, setShowShareDialog] = useState(false);
   const [textVisible, setTextVisible] = useState(false);
@@ -146,7 +148,7 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
 
         {/* Widget C: Suggestions */}
         <button
-          onClick={() => console.log('Navigate to new page')}
+          onClick={() => navigate(`/recordings`)}
           className="bg-white p-6 rounded-lg shadow-md relative text-left"
         >
           <h3 className="text-lg font-semibold mb-2">Feedback</h3>
@@ -171,16 +173,16 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
       </div>
       {showShareDialog && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="w-3/4 relative bg-white p-6 rounded-lg shadow-md mx-2">
+          <div className="w-3/4 relative bg-gray-300 p-6 rounded-lg shadow-md mx-2">
           <div className="absolute top-2 right-2">
               <X size={24} onClick={() => setShowShareDialog(false)} />
           </div>
-            <p className="mb-8">Share this recording via:</p>
-            <div className="flex items-center justify-center mt-12">
-              <img src='../assets/wa.png' className="mx-auto w-1/4 mr-4"/>
-              <img src='../assets/fb.png' className="mx-auto w-1/4 mr-4"/>
-              <img src='../assets/insta.png' className="mx-auto w-1/4 mr-4"/>
-              <img src='../assets/email.png' className="mx-auto w-1/4"/>
+            <p className="text-2xl text-center font-semibold mt-8 mb-2">Share Via:</p>
+            <div className="flex items-center justify-center px-8 mt-4">
+              <img src="/src/assets/wa.png" className="mx-auto w-12 h-12 mx-4" />
+              <img src="/src/assets/fb.png" className="mx-auto w-12 h-12 mr-4"/>
+              <img src="/src/assets/insta.png" className="mx-auto w-14 h-14 mr-4"/>
+              <img src="/src/assets/email.png" className="mx-auto w-11 h-11 mr-4"/>
             </div>
           </div>
         </div>

@@ -1,24 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Header from '../components/Header';
-import AnalysisWidget from '../components/AnalysisWidget';
-import type { RecordingAnalysis } from '../types';
-
-const mockAnalysis: RecordingAnalysis = {
-    r_overall_score: 85,
-    r_structure: 3,
-    r_depth: 2,
-    r_style: 3,
-    r_topics_covered: 8,
-    r_topics_required: 10,
-    r_suggestions_count: 3,
-    grade: '3',
-    id: 1,
-    r_full_response_json: { feedback: '{}' },
-    subject: 'Hindi',
-    timestamp: new Date().toISOString(),
-    user_id: 1,
-};
+import Header from '../components/Header.tsx';
+import AnalysisWidget from '../components/AnalysisWidget.tsx';
+import type { RecordingAnalysis } from '../types.tsx';
 
 export default function AnalysisPage() {
   const { id } = useParams<{ id: string }>();

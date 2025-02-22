@@ -4,7 +4,6 @@ import { Mic, Square, Sparkles, Trash, Save } from 'lucide-react';
 import type { RecordingState, RecordingDetails } from '../types';
 import { toSentenceCase } from '../utils.tsx';
 import Header from '../components/Header';
-import loadingGif from '../assets/analyzing.gif'; // Make sure to have a loading.gif in your assets folder
 
 export default function RecordingPage() {
   const navigate = useNavigate();
@@ -308,7 +307,7 @@ export default function RecordingPage() {
     <div className="min-h-screen px-4 py-4 flex flex-col">
         {loading ? (
           <div className="justify-center items-center my-auto">
-            <img src='../assets/analyze.gif' alt="Loading..." className="mx-auto" />
+            <img src='./src/assets/analyze.gif' alt="Loading..." className="mx-auto" />
             <p className="text-4xl text-center my-8 animate-bounce">Analyzing..</p>
           </div>
         ) : (
