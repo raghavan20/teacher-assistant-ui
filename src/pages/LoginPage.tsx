@@ -46,7 +46,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-blue-100">
+    <div className="min-h-screen flex items-center justify-center bg-white">
       <div className="bg-transparent p-8 rounded-lg w-full max-w-md">
         <div className="text-center mb-2">
           <img src="./src/assets/logo.png" alt="Logo" className="mx-auto w-84 h-68" />

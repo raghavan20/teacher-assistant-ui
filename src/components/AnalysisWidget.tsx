@@ -37,11 +37,11 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
     }
     setCurrentText(selectedText);
 
-    if(analysis.r_structure >= 75) {
+    if (analysis.r_structure >= 75) {
       setStructureStars(3);
-    } else if(analysis.r_structure >= 50) {
+    } else if (analysis.r_structure >= 50) {
       setStructureStars(2);
-    } else if(analysis.r_structure >= 25) {
+    } else if (analysis.r_structure >= 25) {
       setStructureStars(1);
     } else {
       setStructureStars(0);
@@ -78,7 +78,7 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
   return (
     <div className="relative">
       <div className="absolute top-2 right-2 flex items-center space-x-2">
-      <button
+        <button
           onClick={() => setShowShareDialog(true)}
           className="p-2 bg-gray-100 rounded-full hover:bg-gray-300 transition-colors"
         >
@@ -97,7 +97,7 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
           <p className="text-sm font-regular text-gray-400">{formatDate(analysis.timestamp)}</p>
         </div>
         {/* Widget A: Overall Score */}
-        <button 
+        <button
           onClick={() => console.log('Navigate to new page')}
           className="col-span-2 bg-white p-6 rounded-lg shadow-md relative text-left"
         >
@@ -126,12 +126,12 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
               </div>
             </div>
           </div>
-          
+
           <ArrowRight className="absolute bottom-2 right-2 text-gray-400" size={24} />
         </button>
 
         {/* Widget B: Topics */}
-        <Link 
+        <Link
           to={'/recordings/' + analysis.id + '/topics'} state={{ lessonPlanMetricsData }}
           className="bg-white p-6 rounded-lg shadow-md relative text-left"
         >
@@ -169,24 +169,24 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
             <span>Suggest Fun Activity!</span>
           </button>
           <Link className="w-3/4 my-2 py-4 bg-pink-500 text-white rounded-md shadow-lg hover:bg-pink-600 flex items-center justify-center gap-2 transition-colors"
-          to={`/recordings/${analysis.id}/quiz`}>
-              <NotebookPen size={24} />
-              <span>Generate Quiz</span>
+            to={`/recordings/${analysis.id}/quiz`}>
+            <NotebookPen size={24} />
+            <span>Generate Quiz</span>
           </Link>
         </div>
       </div>
       {showShareDialog && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="w-3/4 relative bg-gray-300 p-6 rounded-lg shadow-md mx-2">
-          <div className="absolute top-2 right-2">
+            <div className="absolute top-2 right-2">
               <X size={24} onClick={() => setShowShareDialog(false)} />
-          </div>
+            </div>
             <p className="text-2xl text-center font-semibold mt-2 mb-2">Share Via:</p>
             <div className="flex items-center justify-center px-8 mt-4 gap-4">
               <img src="/src/assets/wa.png" className="mx-auto w-12 h-12" />
-              <img src="/src/assets/fb.png" className="mx-auto w-12 h-12"/>
-              <img src="/src/assets/insta.png" className="mx-auto w-14 h-14"/>
-              <img src="/src/assets/email.png" className="mx-auto w-11 h-11"/>
+              <img src="/src/assets/fb.png" className="mx-auto w-12 h-12" />
+              <img src="/src/assets/insta.png" className="mx-auto w-14 h-14" />
+              <img src="/src/assets/email.png" className="mx-auto w-11 h-11" />
             </div>
           </div>
         </div>
