@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Mic, Square, Sparkles, Trash } from 'lucide-react';
+import { Mic, Square, Sparkles, Trash, Save } from 'lucide-react';
 import type { RecordingState, RecordingDetails } from '../types';
 import Header from '../components/Header';
 
@@ -129,6 +129,11 @@ export default function RecordingPage() {
         audioBlob: file
       }));
     }
+  };
+
+  const handleSave = () => {
+    // Implement the save functionality here
+    console.log('Recording saved');
   };
 
   const handleDelete = () => {
@@ -296,8 +301,15 @@ export default function RecordingPage() {
                   onClick={handleAnalyze}
                   className="w-full py-4 mt-16 mb-2 font-semibold bg-blue-500 text-white rounded-md hover:bg-blue-600 flex items-center justify-center gap-2 transition-colors"
                 >
-                  <Sparkles size={20} />
-                  <span>Analyze Lesson</span>
+                  <Sparkles className='fill-current' size={20} />
+                  <span>Analyze Lesson Now</span>
+                </button>
+                <button
+                  onClick={handleSave}
+                  className="w-full py-4 mt-2 mb-16 font-semibold bg-blue-300 text-white rounded-md hover:bg-blue-600 flex items-center justify-center gap-2 transition-colors"
+                >
+                  <Save className='' size={20} />
+                  <span>Save & Analyze Later</span>
                 </button>
                 <button
                   onClick={() => setShowDeleteConfirm(true)}

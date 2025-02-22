@@ -29,10 +29,10 @@ const mockAnalyses = [
 
 export default function HomePage() {
   const pageTitle = "My Profile";
-  const teacherName = "Meenakshi"; // Replace with dynamic data if available
-  const totalLessons = 103; // Replace with dynamic data
-  const totalStars = 74; // Replace with dynamic data
-  const streakDays = 23; // Replace with
+  const teacherName = localStorage.getItem('name') || 'Pallavi';
+  const totalLessons = localStorage.getItem('totalLessons') || 103;
+  const totalStars = localStorage.getItem('totalStars') || 74;
+  const streakDays = localStorage.getItem('streakDays') || 23;
 
   const data = {
     labels: ['S', 'M', 'T', 'W', 'Th', 'F', 'Sa'],
@@ -72,7 +72,7 @@ export default function HomePage() {
     <div className="max-w-4xl mx-auto p-4 relative">
       <Header pageTitle={pageTitle} />
       <div>
-        <p className="text-xl font-medium mt-4 mb-8 px-2">Hi {teacherName}!</p>
+        <p className="text-lg font-medium mt-4 mb-8 px-2">Hi {teacherName}!</p>
       </div>
       <div className="mb-4">
         <div className="w-full flex gap-4">

@@ -24,7 +24,7 @@ export default function Header({ pageTitle }: { pageTitle: string }) {
           >
             {menuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
-          <h1 className="text-2xl font-bold">{pageTitle}</h1>
+          <h1 className="text-xl font-bold">{pageTitle}</h1>
         </div>
         <div className="flex items-center space-x-4">
           <div>
@@ -65,7 +65,7 @@ export default function Header({ pageTitle }: { pageTitle: string }) {
               </Link>
             </li>
             <li>
-              <Link to="/" className="block text-2xl text-black-500 hover:underline py-4">
+              <Link to="/profile" className="block text-2xl text-black-500 hover:underline py-4">
                 My Profile
               </Link>
             </li>

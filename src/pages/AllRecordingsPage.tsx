@@ -1,15 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Search } from 'lucide-react';
-import type { RecordingDetails } from '../types';
+import { Eye, Search, Sparkles } from 'lucide-react';
+import type { RecordingDetails, RecordingAnalysis } from '../types';
 import Header from '../components/Header';
 
 export default function AllRecordindsPage() {
+
+  const recordingAnalysis1: RecordingAnalysis = {
+    grade: '3',
+    id: 4,
+    r_depth: 4.0,
+    r_full_response_json: {
+      feedback: 'Great structure!',
+    },
+    r_overall_score: 85.5,
+    r_structure: 4.5,
+    r_style: 4.2,
+    r_suggestions_count: 3,
+    r_topics_covered: 4,
+    r_topics_required: 5,
+    subject: 'Hindi',
+    timestamp: '2025-02-21T03:42:36.766739',
+    user_id: 1,
+  };
+
   const sampleRecording1: RecordingDetails = {
     id: 4,
     subject: 'Hindi',
     grade: '3',
     timestamp: new Date().toISOString(),
+    analysis: recordingAnalysis1,
   };
   const sampleRecording2: RecordingDetails = {
     id: 2,
@@ -53,8 +73,7 @@ export default function AllRecordindsPage() {
       </div>
       <div className="space-y-4">
         {filteredRecordings.map((recording, index) => (
-          <Link
-            to={`/recordings/${recording.id}/analysis`}
+          <div
             key={index}
             className="block p-4 bg-white rounded-lg shadow-md hover:bg-gray-100 transition-colors"
           >
@@ -64,9 +83,19 @@ export default function AllRecordindsPage() {
                 <p className="text-gray-600">Grade {recording.grade}</p>
                 <p className="text-gray-400 text-sm">{new Date(recording.timestamp).toLocaleString()}</p>
               </div>
-              <div className="text-blue-500">View Analysis</div>
+              {(recording.analysis) ? (
+                <Link className='flex gap-2' to={`/recordings/${recording.id}/analysis`}>
+                  <Eye className="text-blue-500" />
+                  <p className='text-blue-500'>View Analysis</p>
+                </Link>
+              ) : (
+                <button className="bg-blue-500 text-white p-2 rounded-md flex items-center space-x-2">
+                  <Sparkles size={16} className="fill-current" />
+                  <p>Analyze</p>
+                </button>
+              )}
             </div>
-          </Link>
+          </div>
         ))}
       </div>
     </div>
