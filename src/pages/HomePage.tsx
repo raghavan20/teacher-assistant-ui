@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import Header from '../components/Header';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -19,7 +20,7 @@ export default function HomePage() {
   useEffect(() => {
     const fetchTotalLessons = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/recordings?user_id=${userId}`, {
+        const response = await fetch(`${API_BASE_URL}/recordings?user_id=${userId}`, {
           method: "GET"
         });
         const data = await response.json();

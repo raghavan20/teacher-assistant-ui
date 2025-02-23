@@ -5,7 +5,7 @@ import { ArrowLeft, Share } from 'lucide-react';
 import { Card, CardContent, CardHeader, Typography } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import Header from '../components/Header.tsx';
-
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default function QuizPage() {
   const { recordingId } = useParams();
@@ -15,7 +15,7 @@ export default function QuizPage() {
   useEffect(() => {
     async function fetchQuiz() {
       try {
-        const response = await fetch(`http://localhost:5000/recordings/${recordingId}/quiz`, {
+        const response = await fetch(`${API_BASE_URL}/recordings/${recordingId}/quiz`, {
           method: "POST"
         });
         const data = await response.json();

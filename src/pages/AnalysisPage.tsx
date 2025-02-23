@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import Header from '../components/Header.tsx';
 import AnalysisWidget from '../components/AnalysisWidget.tsx';
 import type { RecordingAnalysis } from '../types.tsx';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 
 export default function AnalysisPage() {
   const { id } = useParams<{ id: string }>();
@@ -11,7 +13,7 @@ export default function AnalysisPage() {
   useEffect(() => {
     const fetchAnalysis = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/recordings/${id}`);
+        const response = await fetch(`${API_BASE_URL}/recordings/${id}`);
         if (response.ok) {
             console.log('response:', response);
             const data: RecordingAnalysis = await response.json();

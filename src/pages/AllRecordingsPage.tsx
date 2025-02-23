@@ -4,6 +4,7 @@ import { Eye, Search, Sparkles } from 'lucide-react';
 import type { RecordingDetails, RecordingAnalysis } from '../types';
 import Header from '../components/Header';
 import { toSentenceCase } from '../utils';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default function AllRecordingsPage() {
   const [recordings, setRecordings] = useState<RecordingDetails[]>([]);
@@ -12,7 +13,7 @@ export default function AllRecordingsPage() {
   useEffect(() => {
     const fetchRecordings = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/recordings?user_id=${localStorage.getItem('userId')}`);
+        const response = await fetch(`${API_BASE_URL}/recordings?user_id=${localStorage.getItem('userId')}`);
         if (response.ok) {
           const data: RecordingDetails[] = await response.json();
           // Sort recordings by latest timestamp to oldest

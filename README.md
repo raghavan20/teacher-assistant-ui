@@ -26,8 +26,18 @@ A mobile-friendly web application designed to help teachers improve their teachi
    ```bash
    npm run dev
    ```
+   
+4.  Create .env at root of project
 
-4. Open your browser and navigate to `http://localhost:5173`
+   ```
+   # VITE_API_BASE_URL=http://localhost:5000
+   VITE_API_BASE_URL=http://34.72.127.119:5000
+   ```
+   The last URL is the public hosted API endpoint URL
+
+5. Open your browser and navigate to `http://localhost:5173`
+
+
 
 ## Building for Production
 

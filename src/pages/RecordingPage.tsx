@@ -4,6 +4,7 @@ import { Mic, Square, Sparkles, Trash, Save } from 'lucide-react';
 import type { RecordingState, RecordingDetails } from '../types';
 import { toSentenceCase } from '../utils.tsx';
 import Header from '../components/Header';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export default function RecordingPage() {
   const navigate = useNavigate();
@@ -125,7 +126,7 @@ export default function RecordingPage() {
     console.log('Uploading recording:', formData.get('user_id'));
 
     try {
-      const response = await fetch('http://localhost:5000/recordings', {
+      const response = await fetch('${API_BASE_URL}/recordings', {
         method: 'POST',
         body: formData
       });
