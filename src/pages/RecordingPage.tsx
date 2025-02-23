@@ -99,9 +99,9 @@ export default function RecordingPage() {
 
   const handleAnalyze = async () => {
     if (!details.subject || !details.grade || !details.audioBlob) return;
-
+  
     setLoading(true); // Set loading to true when the API call starts
-
+  
     const formData = new FormData();
     formData.append('recording', details.audioBlob, 'recording.webm');
     formData.append('subject', details.subject);
@@ -113,13 +113,22 @@ export default function RecordingPage() {
     formData.append('block', details.block || '');
     formData.append('language', localStorage.getItem('language') || '');
     formData.append('user_id', localStorage.getItem('userId') || '');
-
+  
+    const timeout = 120000; // 2 minutes in milliseconds
+  
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error('Request timed out')), timeout)
+    );
+  
     try {
-      const response = await fetch(`${API_BASE_URL}/recordings`, {
-        method: 'POST',
-        body: formData
-      });
-
+      const response = await Promise.race([
+        fetch(`${API_BASE_URL}/recordings`, {
+          method: 'POST',
+          body: formData
+        }),
+        timeoutPromise // Add the timeout promise to race against the fetch request
+      ]);
+  
       if (response.ok) {
         const analysis = await response.json();
         const recordings = JSON.parse(localStorage.getItem('recordings') || '[]');
@@ -131,11 +140,16 @@ export default function RecordingPage() {
         navigate(`/recordings/${analysis.recording_id}/analysis`);
       }
     } catch (error) {
-      console.error('Error uploading recording:', error);
+      if (error.message === 'Request timed out') {
+        console.error('Error: The request took too long to complete.');
+      } else {
+        console.error('Error uploading recording:', error);
+      }
     } finally {
       setLoading(false);
     }
   };
+  
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -155,9 +169,8 @@ export default function RecordingPage() {
 
   const handleSave = async () => {
     if (!details.subject || !details.grade || !details.audioBlob) return;
-
+  
     setLoading(true); // Set loading to true when the API call starts
-
     const formData = new FormData();
     formData.append('recording', details.audioBlob, 'recording.webm');
     formData.append('subject', details.subject);
@@ -169,13 +182,22 @@ export default function RecordingPage() {
     formData.append('block', details.block || '');
     formData.append('language', localStorage.getItem('language') || '');
     formData.append('user_id', localStorage.getItem('userId') || '');
-
+  
+    const timeout = 120000; // 2 minutes in milliseconds
+  
+    const timeoutPromise = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error('Request timed out')), timeout)
+    );
+  
     try {
-      const response = await fetch(`${API_BASE_URL}/recordings?analyze=false`, {
-        method: 'POST',
-        body: formData
-      });
-
+      const response = await Promise.race([
+        fetch(`${API_BASE_URL}/recordings?analyze=false`, {
+          method: 'POST',
+          body: formData
+        }),
+        timeoutPromise // Add the timeout promise to race against the fetch request
+      ]);
+  
       if (response.ok) {
         const analysis = await response.json();
         const recordings = JSON.parse(localStorage.getItem('recordings') || '[]');
@@ -187,7 +209,11 @@ export default function RecordingPage() {
         navigate(`/recordings`);
       }
     } catch (error) {
-      console.error('Error uploading recording:', error);
+      if (error.message === 'Request timed out') {
+        console.error('Error: The request took too long to complete.');
+      } else {
+        console.error('Error uploading recording:', error);
+      }
     } finally {
       setLoading(false);
     }
