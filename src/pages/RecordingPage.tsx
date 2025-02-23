@@ -126,7 +126,7 @@ export default function RecordingPage() {
     console.log('Uploading recording:', formData.get('user_id'));
 
     try {
-      const response = await fetch('${API_BASE_URL}/recordings', {
+      const response = await fetch(`${API_BASE_URL}/recordings`, {
         method: 'POST',
         body: formData
       });

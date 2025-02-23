@@ -65,3 +65,14 @@ A mobile-friendly web application designed to help teachers improve their teachi
   npm run build
   docker-compose up --build -
 ```
+
+## Other commands
+
+```
+sudo docker build . -t invokeed/teacher-assistant-ui
+
+sudo docker run --rm -d --name teacher-assistant-ui --env-file .env -p 5173:80 invokeed/teacher-assistant-ui
+
+sudo docker ps
+sudo docker stop teacher-assistant-ui
+```
