@@ -1,9 +1,6 @@
-
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ArrowLeft, Share } from 'lucide-react';
-import { Card, CardContent, CardHeader, Typography } from "@mui/material";
-import CircularProgress from "@mui/material/CircularProgress";
 import Header from '../components/Header.tsx';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -14,6 +11,7 @@ export default function QuizPage() {
 
   useEffect(() => {
     async function fetchQuiz() {
+      
       try {
         const response = await fetch(`${API_BASE_URL}/recordings/${recordingId}/quiz`, {
           method: "POST"

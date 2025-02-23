@@ -164,10 +164,11 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
 
         {/* Widget D: Generate Quiz */}
         <div className="col-span-2 flex flex-col items-center justify-center text-center mt-4">
-          <button className="w-3/4 my-2 py-4 bg-purple-500 text-white rounded-md shadow-lg hover:bg-purple-600 flex items-center justify-center gap-2 transition-colors">
+          <Link className="w-3/4 my-2 py-4 bg-purple-500 text-white rounded-md shadow-lg hover:bg-purple-600 flex items-center justify-center gap-2 transition-colors"
+          to={`/recordings/${analysis.id}/activity`}>
             <FerrisWheel size={24} />
             <span>Suggest Fun Activity!</span>
-          </button>
+          </Link>
           <Link className="w-3/4 my-2 py-4 bg-pink-500 text-white rounded-md shadow-lg hover:bg-pink-600 flex items-center justify-center gap-2 transition-colors"
             to={`/recordings/${analysis.id}/quiz`}>
             <NotebookPen size={24} />

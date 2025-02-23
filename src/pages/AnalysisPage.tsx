@@ -15,9 +15,7 @@ export default function AnalysisPage() {
       try {
         const response = await fetch(`${API_BASE_URL}/recordings/${id}`);
         if (response.ok) {
-            console.log('response:', response);
             const data: RecordingAnalysis = await response.json();
-            console.log('data:', data);
             setAnalysis(data);
         } else {
           console.error('Failed to fetch analysis');

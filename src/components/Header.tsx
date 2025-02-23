@@ -32,7 +32,7 @@ export default function Header({ pageTitle }: { pageTitle: string }) {
             <select
               value={language}
               onChange={handleLanguageChange}
-              className="p-2 bg-white-200 text-sm rounded-md text-right focus:outline-none"
+              className="py-2 px-1 bg-white-200 text-sm rounded-md text-center focus:outline-none"
             >
               <option value="english">English</option>
               <option value="hindi">हिंदी</option>

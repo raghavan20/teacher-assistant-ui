@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Eye, Search, Sparkles } from 'lucide-react';
+import { Eye, Search, Sparkles, Trash } from 'lucide-react';
 import type { RecordingDetails, RecordingAnalysis } from '../types';
 import Header from '../components/Header';
 import { toSentenceCase } from '../utils';
@@ -35,6 +35,22 @@ export default function AllRecordingsPage() {
     recording.grade.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleDeleteRecording = async (recording_id: number) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/recordings/${recording_id}`, {
+        method: 'DELETE'
+      });
+      if (response.ok) {
+        // Remove the deleted recording from the state
+        setRecordings(prevRecordings => prevRecordings.filter(recording => recording.id !== recording_id));
+      } else {
+        console.error('Failed to delete recording');
+      }
+    } catch (error) {
+      console.error('Error deleting recording:', error);
+    }
+  };
+
   return (
     <div className="max-w-4xl mx-auto p-4">
       <Header pageTitle="Past Lessons" />
@@ -54,8 +70,12 @@ export default function AllRecordingsPage() {
         {filteredRecordings.map((recording, index) => (
           <div
             key={index}
-            className="block p-4 bg-white rounded-lg shadow-md hover:bg-gray-100 transition-colors"
-          >
+            className="relative block p-4 bg-white rounded-lg shadow-md hover:bg-gray-100 transition-colors"
+          > 
+            <button className='absolute top-2 right-2'
+            onClick={() => handleDeleteRecording(recording.id)}>
+              <Trash className='text-red-500' size={20}/>
+            </button>
             <div className="flex justify-between items-center">
               <div>
                 <h3 className="text-lg font-semibold">{toSentenceCase(recording.subject)}</h3>

@@ -114,17 +114,6 @@ export default function RecordingPage() {
     formData.append('language', localStorage.getItem('language') || '');
     formData.append('user_id', localStorage.getItem('userId') || '');
 
-    console.log(details.topic);
-    console.log('Uploading recording:', formData.get('topic'));
-    console.log('Uploading recording:', formData.get('subject'));
-    console.log('Uploading recording:', formData.get('grade'));
-    console.log('Uploading recording:', formData.get('state'));
-    console.log('Uploading recording:', formData.get('board'));
-    console.log('Uploading recording:', formData.get('district'));
-    console.log('Uploading recording:', formData.get('block'));
-    console.log('Uploading recording:', formData.get('language'));
-    console.log('Uploading recording:', formData.get('user_id'));
-
     try {
       const response = await fetch(`${API_BASE_URL}/recordings`, {
         method: 'POST',
@@ -133,7 +122,6 @@ export default function RecordingPage() {
 
       if (response.ok) {
         const analysis = await response.json();
-        // Store in localStorage
         const recordings = JSON.parse(localStorage.getItem('recordings') || '[]');
         recordings.push({
           ...details,
@@ -145,7 +133,7 @@ export default function RecordingPage() {
     } catch (error) {
       console.error('Error uploading recording:', error);
     } finally {
-      setLoading(false); // Set loading to false when the API call completes
+      setLoading(false);
     }
   };
 
@@ -165,9 +153,44 @@ export default function RecordingPage() {
     }
   };
 
-  const handleSave = () => {
-    // Implement the save functionality here
-    console.log('Recording saved');
+  const handleSave = async () => {
+    if (!details.subject || !details.grade || !details.audioBlob) return;
+
+    setLoading(true); // Set loading to true when the API call starts
+
+    const formData = new FormData();
+    formData.append('recording', details.audioBlob, 'recording.webm');
+    formData.append('subject', details.subject);
+    formData.append('grade', details.grade);
+    formData.append('topic', details.topic || '');
+    formData.append('state', details.state || '');
+    formData.append('board', details.board || '');
+    formData.append('district', details.district || '');
+    formData.append('block', details.block || '');
+    formData.append('language', localStorage.getItem('language') || '');
+    formData.append('user_id', localStorage.getItem('userId') || '');
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/recordings?analyze=false`, {
+        method: 'POST',
+        body: formData
+      });
+
+      if (response.ok) {
+        const analysis = await response.json();
+        const recordings = JSON.parse(localStorage.getItem('recordings') || '[]');
+        recordings.push({
+          ...details,
+          analysis
+        });
+        localStorage.setItem('recordings', JSON.stringify(recordings));
+        navigate(`/recordings`);
+      }
+    } catch (error) {
+      console.error('Error uploading recording:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleDelete = () => {
