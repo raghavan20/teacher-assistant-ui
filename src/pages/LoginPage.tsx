@@ -11,37 +11,50 @@ export default function LoginPage() {
     // Simulate login success
     if (username && password) {
       if (username === 'pallavi') {
-        console.log('pallavi');
-        localStorage.setItem('role', 'teacher');
-        localStorage.setItem('name', 'Pallavi');
-        localStorage.setItem('state', 'DEL');
-        localStorage.setItem('district', 'New Delhi');
-        localStorage.setItem('board', 'CBSE');
-        localStorage.setItem('block', 'Saket');
-        localStorage.setItem('userId', '1');
-        localStorage.setItem('totalLessons', '103');
-        localStorage.setItem('totalStars', '74');
-        localStorage.setItem('streakDays', '23');
-        localStorage.setItem('language', 'english');
+        if (password === 'edventurer1') {
+          console.log('pallavi');
+          localStorage.setItem('role', 'teacher');
+          localStorage.setItem('name', 'Pallavi');
+          localStorage.setItem('state', 'DEL');
+          localStorage.setItem('district', 'New Delhi');
+          localStorage.setItem('board', 'CBSE');
+          localStorage.setItem('block', 'Saket');
+          localStorage.setItem('userId', '1');
+          localStorage.setItem('totalLessons', '103');
+          localStorage.setItem('totalStars', '74');
+          localStorage.setItem('streakDays', '23');
+          localStorage.setItem('language', 'english');
+          localStorage.setItem('username', username);
+          navigate('/profile'); // Redirect to home page after login
+        } else {
+          alert('Invalid Credentials')
+        }
       }
       else if (username === 'meenakshi') {
-        console.log('meenakshi');
-        localStorage.setItem('role', 'teacher');
-        localStorage.setItem('name', 'Meenakshi');
-        localStorage.setItem('state', 'UP');
-        localStorage.setItem('board', 'UPMSP');
-        localStorage.setItem('district', 'Bijnor');
-        localStorage.setItem('block', 'Dhampur');
-        localStorage.setItem('userId', '2');
-        localStorage.setItem('totalLessons', '87');
-        localStorage.setItem('totalStars', '63');
-        localStorage.setItem('streakDays', '7');
-        localStorage.setItem('language', 'hindi');
+        if (password === 'edventurer2') {
+          console.log('meenakshi');
+          localStorage.setItem('role', 'teacher');
+          localStorage.setItem('name', 'Meenakshi');
+          localStorage.setItem('state', 'UP');
+          localStorage.setItem('board', 'UPMSP');
+          localStorage.setItem('district', 'Bijnor');
+          localStorage.setItem('block', 'Dhampur');
+          localStorage.setItem('userId', '2');
+          localStorage.setItem('totalLessons', '87');
+          localStorage.setItem('totalStars', '63');
+          localStorage.setItem('streakDays', '7');
+          localStorage.setItem('language', 'hindi');
+          localStorage.setItem('username', username);
+          navigate('/profile'); // Redirect to home page after login
+        } else {
+          alert('Invalid Credentials')
+        }
       }
-      localStorage.setItem('username', username);
-      navigate('/profile'); // Redirect to home page after login
+      else {
+        alert('Invalid Credentials')
+      }
     } else {
-      alert('Please enter both username and password');
+      alert('Invalid Credentials');
     }
   };
 

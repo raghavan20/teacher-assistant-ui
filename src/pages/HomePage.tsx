@@ -12,9 +12,9 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 export default function HomePage() {
   const pageTitle = "My Profile";
   const teacherName = localStorage.getItem('name') || 'Pallavi';
-  const [totalLessons, setTotalLessons] = useState<number>(0);
-  const [totalStars, setTotalStars] = useState<number>(0);
-  const [streakDays, setStreakDays] = useState<number>(0);
+  const [totalLessons, setTotalLessons] = useState<number>(3);
+  const [totalStars, setTotalStars] = useState<number>(9);
+  const [streakDays, setStreakDays] = useState<number>(2);
   const userId = localStorage.getItem('userId');
 
   useEffect(() => {
@@ -26,6 +26,8 @@ export default function HomePage() {
         const data = await response.json();
         if (Array.isArray(data)) {
           setTotalLessons(data.length);
+          setTotalStars(totalLessons * 6);
+          setStreakDays(totalLessons);
         } else {
           console.error("Unexpected API response format:", data);
           setTotalLessons(0);
@@ -35,8 +37,6 @@ export default function HomePage() {
       }
     };
     fetchTotalLessons();
-    setTotalStars(totalLessons * 6);
-    setStreakDays(Math.floor(totalLessons * 0.6));
   }, []);
 
   const data = {
