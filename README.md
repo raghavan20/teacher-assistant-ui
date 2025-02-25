@@ -27,13 +27,13 @@ A mobile-friendly web application designed to help teachers improve their teachi
    npm run dev
    ```
    
-4.  Create .env at root of project
+4.  Create .env file at root of project or at working directory
 
    ```
    # VITE_API_BASE_URL=http://localhost:5000
    VITE_API_BASE_URL=http://34.72.127.119:5000
    ```
-   The last URL is the public hosted API endpoint URL
+   `VITE_API_BASE_URL` indicates where API endpoint is running
 
 5. Open your browser and navigate to `http://localhost:5173`
 
@@ -51,28 +51,25 @@ A mobile-friendly web application designed to help teachers improve their teachi
    npm run preview
    ```
 
-## Technical Notes
 
-- Built with React and TypeScript
-- Uses Vite as the build tool
-- Styled with Tailwind CSS
-- Icons from Lucide React
-- Mobile-first responsive design
-
-## Run locally with nginx
-
-```
-  npm run build
-  docker-compose up --build -
-```
 
 ## Other commands
 
+Run without hanging in dev mode:
+
+```bash
+nohup npm run dev > output.log 2>&1 &
 ```
+
+
+Run as container:
+
+```bash
 sudo docker build . -t invokeed/teacher-assistant-ui
 
 sudo docker run --rm -d --name teacher-assistant-ui --env-file .env -p 5173:80 invokeed/teacher-assistant-ui
 
 sudo docker ps
 sudo docker stop teacher-assistant-ui
+
 ```
