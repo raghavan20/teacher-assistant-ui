@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Info, ArrowRight, Share, PlayCircle, FerrisWheel, NotebookPen, X } from 'lucide-react';
+import { Info, ArrowRight, Share, PlayCircle, PauseCircle, FerrisWheel, NotebookPen, X } from 'lucide-react';
 import type { RecordingAnalysis } from '../types';
 import StarRating from './StarRating.tsx';
 import { formatDate, toSentenceCase } from '../utils.tsx';
@@ -23,9 +23,14 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
   const [structureStars, setStructureStars] = useState(0); // Example structure value
   const [depthStars, setDepthStars] = useState(0); // Example depth value
   const [styleStars, setStyleStars] = useState(0); // Example style value
+  const [audioUrl, setAudioUrl] = useState<string | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [audioProgress, setAudioProgress] = useState(0);
   const lessonPlanMetricsData = analysis.r_full_response_json.predictions.lesson_plan_metrics;
   const suggestionsData = analysis.r_full_response_json.suggestions;
   const predictionsData = analysis.r_full_response_json.predictions;
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
     let selectedText = textOptions[3]; // Default to "Getting There!"
@@ -76,15 +81,54 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
     return () => clearTimeout(timeout);
   }, [analysis.r_overall_score]);
 
+  const handlePlayAudio = async () => {
+    try {
+      if (audioRef.current && audioRef.current.src) {
+        audioRef.current.play();
+        setIsPlaying(true);
+        return;
+      }
+      const audio_response = await fetch(`${API_BASE_URL}/recordings/${analysis.id}/blob`);
+      console.log('Response received');
+      if (!audio_response.ok) {
+        throw new Error('Failed to fetch audio blob');
+      }
+      const audioBlob = await audio_response.blob();
+      const audioUrl = URL.createObjectURL(audioBlob);
+      setAudioUrl(audioUrl);
+      setIsPlaying(true);
+    } catch (error) {
+      console.error('Error fetching audio blob:', error);
+    }
+  };
+
+  const handlePauseAudio = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    }
+  };
+
+  useEffect(() => {
+    if (audioUrl && audioRef.current) {
+      audioRef.current.src = audioUrl;
+      audioRef.current.play();
+      audioRef.current.addEventListener('timeupdate', () => {
+        if (audioRef.current) {
+          setAudioProgress((audioRef.current.currentTime / audioRef.current.duration) * 100);
+        }
+      });
+      audioRef.current.addEventListener('ended', () => {
+        setIsPlaying(false);
+        setAudioProgress(0);
+      });
+    }
+  }, [audioUrl]);
+
   return (
     <div className="relative">
+      {audioUrl && <audio ref={audioRef} />}
       <div className="absolute top-2 right-2 flex items-center space-x-2">
-        <button
-          onClick={() => setShowShareDialog(true)}
-          className="p-2 bg-gray-100 rounded-full hover:bg-gray-300 transition-colors"
-        >
-          <PlayCircle size={24} />
-        </button>
         <button
           onClick={() => setShowShareDialog(true)}
           className="p-2 bg-gray-100 rounded-full hover:bg-gray-300 transition-colors"
@@ -97,6 +141,49 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
           <p className="text-lg font-semibold text-gray-800">{toSentenceCase(analysis.subject)} - Grade {analysis.grade}</p>
           <p className="text-md font-regular text-gray-600">{toSentenceCase(analysis.topic.replace('_', ' '))}</p>
           <p className="text-sm font-regular text-gray-400">{formatDate(analysis.timestamp)}</p>
+        </div>
+        {/* Audio Player */}
+        <div className="col-span-2 bg-white p-6 rounded-lg shadow-md relative text-left">
+          <h3 className="text-lg font-semibold mb-4">Playback Recording</h3>
+          {isPlaying ? (
+            <div className="flex item-center justify-between gap-4">
+              <button
+                onClick={handlePauseAudio}
+                className="p-2 bg-gray-100 rounded-full hover:bg-gray-300 transition-colors"
+              >
+                <PauseCircle size={24} />
+              </button>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value={audioProgress}
+                onChange={(e) => {
+                  if (audioRef.current) {
+                    audioRef.current.currentTime = (audioRef.current.duration * Number(e.target.value)) / 100;
+                  }
+                }}
+                className="w-full"
+              />
+            </div>
+          ) : (
+            <div className="flex items-center justify-between gap-4">
+              <button
+                onClick={handlePlayAudio}
+                className="p-2 bg-gray-100 rounded-full hover:bg-gray-300 transition-colors"
+              >
+                <PlayCircle size={24} />
+              </button>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value={audioProgress}
+                disabled
+                className="w-full"
+              />
+            </div>
+          )}
         </div>
         {/* Widget A: Overall Score */}
         <Link
@@ -167,7 +254,7 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
         {/* Widget D: Generate Quiz */}
         <div className="col-span-2 flex flex-col items-center justify-center text-center mt-4">
           <Link className="w-3/4 my-2 py-4 bg-purple-500 text-white rounded-md shadow-lg hover:bg-purple-600 flex items-center justify-center gap-2 transition-colors"
-          to={`/recordings/${analysis.id}/activity`}>
+            to={`/recordings/${analysis.id}/activity`}>
             <FerrisWheel size={24} />
             <span>Suggest Fun Activity!</span>
           </Link>
