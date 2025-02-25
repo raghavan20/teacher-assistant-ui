@@ -14,7 +14,9 @@ export default function RecordingPage() {
   const [selectedSubject, setSelectedSubject] = useState('');
   const [selectedGrade, setSelectedGrade] = useState('');
   const [selectedTopic, setSelectedTopic] = useState('');
+  const [lessonDuration, setLessonDuration] = useState(30);
   const [lessonNotes, setLessonNotes] = useState('');
+  const [fetchingLessonPlan, setFetchingLessonPlan] = useState(false);
   const [loading, setLoading] = useState(false);
   const [recordingState, setRecordingState] = useState<RecordingState>({
     isRecording: false,
@@ -99,9 +101,9 @@ export default function RecordingPage() {
 
   const handleAnalyze = async () => {
     if (!details.subject || !details.grade || !details.audioBlob) return;
-  
+
     setLoading(true); // Set loading to true when the API call starts
-  
+
     const formData = new FormData();
     formData.append('recording', details.audioBlob, 'recording.webm');
     formData.append('subject', details.subject);
@@ -113,13 +115,13 @@ export default function RecordingPage() {
     formData.append('block', details.block || '');
     formData.append('language', localStorage.getItem('language') || '');
     formData.append('user_id', localStorage.getItem('userId') || '');
-  
+
     const timeout = 120000; // 2 minutes in milliseconds
-  
-    const timeoutPromise = new Promise((_, reject) => 
+
+    const timeoutPromise = new Promise((_, reject) =>
       setTimeout(() => reject(new Error('Request timed out')), timeout)
     );
-  
+
     try {
       const response = await Promise.race([
         fetch(`${API_BASE_URL}/recordings`, {
@@ -128,7 +130,7 @@ export default function RecordingPage() {
         }),
         timeoutPromise // Add the timeout promise to race against the fetch request
       ]);
-  
+
       if (response.ok) {
         const analysis = await response.json();
         const recordings = JSON.parse(localStorage.getItem('recordings') || '[]');
@@ -149,7 +151,7 @@ export default function RecordingPage() {
       setLoading(false);
     }
   };
-  
+
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -169,7 +171,7 @@ export default function RecordingPage() {
 
   const handleSave = async () => {
     if (!details.subject || !details.grade || !details.audioBlob) return;
-  
+
     setLoading(true); // Set loading to true when the API call starts
     const formData = new FormData();
     formData.append('recording', details.audioBlob, 'recording.webm');
@@ -182,13 +184,13 @@ export default function RecordingPage() {
     formData.append('block', details.block || '');
     formData.append('language', localStorage.getItem('language') || '');
     formData.append('user_id', localStorage.getItem('userId') || '');
-  
+
     const timeout = 120000; // 2 minutes in milliseconds
-  
-    const timeoutPromise = new Promise((_, reject) => 
+
+    const timeoutPromise = new Promise((_, reject) =>
       setTimeout(() => reject(new Error('Request timed out')), timeout)
     );
-  
+
     try {
       const response = await Promise.race([
         fetch(`${API_BASE_URL}/recordings?analyze=false`, {
@@ -197,7 +199,7 @@ export default function RecordingPage() {
         }),
         timeoutPromise // Add the timeout promise to race against the fetch request
       ]);
-  
+
       if (response.ok) {
         const analysis = await response.json();
         const recordings = JSON.parse(localStorage.getItem('recordings') || '[]');
@@ -220,10 +222,51 @@ export default function RecordingPage() {
   };
 
   const handleDelete = () => {
-    // Implement the delete functionality here
-    console.log('Recording deleted');
-    setShowDeleteConfirm(false);
+    navigate('/profile')
   };
+
+  const handleGetLessonPlan = async () => {
+    try {
+      setFetchingLessonPlan(true);
+      const response = await fetch(`${API_BASE_URL}/lesson_plan`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          grade: selectedGrade,
+          subject: selectedSubject,
+          topic: selectedTopic,
+          lesson_duration: lessonDuration,
+          language: details.language
+        })
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data)
+        setLessonNotes(getLessonPlanText(data.lesson_plan));
+        console.log(lessonNotes)
+      } else {
+        console.error('Failed to generate lesson plan');
+      }
+    } catch (error) {
+      console.error('Failed to generate lesson plan', error)
+    }
+    setFetchingLessonPlan(false);
+    console.log(lessonNotes)
+  };
+
+  const getLessonPlanText = (lesson_plan: Array<{ description: string, pedagogy_step: string, duration: number }>) => {
+    let text = ''
+    let step = ''
+    let duration = ''
+    lesson_plan.forEach((item, index) => {
+      step = item.pedagogy_step.toUpperCase()
+      duration = String(item.duration)
+      text += `${step} - ${duration} mins\n${item.description}\n\n`
+    });
+    return text
+  }
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -236,9 +279,9 @@ export default function RecordingPage() {
       <div className="min-h-screen px-4 py-4 flex flex-col">
         <Header pageTitle="New Lesson" />
         <div className="flex-grow flex items-center justify-center">
-          <form onSubmit={handleSubmitDetails} className="space-y-4 w-full max-w-lg p-4">
-            <div>
-              <label htmlFor="subject" className="block text-md font-bold text-gray-700 mt-8 mb-2">
+          <form onSubmit={handleSubmitDetails} className="space-y-2 w-full max-w-lg p-2">
+            <div className="my-4">
+              <label htmlFor="subject" className="block text-md font-bold text-gray-700 mb-1">
                 Subject
               </label>
               <select
@@ -260,8 +303,8 @@ export default function RecordingPage() {
               </select>
             </div>
 
-            <div>
-              <label htmlFor="grade" className="block text-md font-bold text-gray-700 mt-8 mb-2">
+            <div className="my-4">
+              <label htmlFor="grade" className="block text-md font-bold text-gray-700 mb-1">
                 Grade Level
               </label>
               <select
@@ -285,8 +328,8 @@ export default function RecordingPage() {
                 <option value="10">Grade 10</option>
               </select>
             </div>
-            <div>
-              <label htmlFor="topic" className="block text-md font-bold text-gray-700 mt-8 mb-2">
+            <div className="my-4">
+              <label htmlFor="topic" className="block text-md font-bold text-gray-700 mb-1">
                 Topic
               </label>
               {selectedSubject === 'hindi' && (
@@ -340,13 +383,31 @@ export default function RecordingPage() {
                 />
               )}
             </div>
+            <div className="my-4">
+              <label htmlFor="topic" className="block text-md font-bold text-gray-700 mb-1">
+                Lesson Duration (minutes)
+              </label>
+              <input
+                type="number"
+                id="lessonDuration"
+                name="lessonDuration"
+                required
+                className="w-full px-3 py-2 bg-white text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter Lesson Duration In Minutes"
+                value={lessonDuration}
+                onChange={(e) => setLessonDuration(Number(e.target.value))}
+              />
+            </div>
 
-            <div>
-              <div className='flex justify-between mt-8 mb-4'>
-                <label htmlFor="notes" className="block text-md font-bold text-gray-700">
+            <div className='mt-4 mb-2'>
+              <div className='flex justify-between mb-1'>
+                <label htmlFor="notes" className="block text-md font-bold text-gray-700 mb-1">
                   Lesson Plan
                 </label>
-                <button className='flex items-center gap-2 text-sm text-blue-500 font-medium hover:underline'>
+                <button
+                  type="button"
+                  className='flex items-center gap-2 text-sm text-blue-500 font-medium hover:underline'
+                  onClick={() => handleGetLessonPlan()}>
                   <Sparkles size={18} />
                   <p>Generate with AI</p>
                 </button>
@@ -354,9 +415,9 @@ export default function RecordingPage() {
               <textarea
                 id="notes"
                 name="notes"
-                rows={4}
-                className="w-full px-3 py-2 border border-gray-300 text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Add Your Lesson Plan or Generate"
+                rows={5}
+                className="w-full px-3 py-2 overflow-auto h-32 border border-gray-300 text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Add Your Lesson Plan or Generate with AI"
                 value={lessonNotes}
                 onChange={(e) => setLessonNotes(e.target.value)}
               />
@@ -364,12 +425,20 @@ export default function RecordingPage() {
             <div className='flex justify-center'>
               <button
                 type="submit"
-                className="w-1/2 py-4 bg-green-500 text-white font-bold py-2 rounded-md hover:bg-green-600 transition-colors mt-8"
+                className="w-1/2 py-4 bg-green-500 text-white font-bold py-2 rounded-md hover:bg-green-600 transition-colors mt-4"
               >
                 Start Lesson
               </button>
             </div>
           </form>
+          {fetchingLessonPlan && (
+            <div className="min-h-screen fixed inset-0 items-center justify-center bg-black bg-opacity-50 py-auto">
+              <div className="justify-center items-center py-32 my-auto">
+                <img src='./src/assets/analyze.gif' alt="Loading..." className="mx-auto" />
+                <p className="text-4xl text-white text-center my-8 animate-bounce">Generating<br></br>Lesson Plan..</p>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     );
@@ -377,13 +446,13 @@ export default function RecordingPage() {
 
   return (
     <div className="min-h-screen px-4 py-4 flex flex-col">
-        {loading ? (
-          <div className="justify-center items-center my-auto">
-            <img src='./src/assets/analyze.gif' alt="Loading..." className="mx-auto" />
-            <p className="text-4xl text-center my-8 animate-bounce">Analyzing..</p>
-          </div>
-        ) : (
-          <>
+      {loading ? (
+        <div className="justify-center items-center my-auto">
+          <img src='./src/assets/analyze.gif' alt="Loading..." className="mx-auto" />
+          <p className="text-4xl text-center my-8 animate-bounce">Analyzing..</p>
+        </div>
+      ) : (
+        <>
           <Header pageTitle="Start New Lesson" />
           <div className="flex-grow flex items-center justify-center">
             <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-lg">
@@ -473,8 +542,8 @@ export default function RecordingPage() {
               )}
             </div>
           </div>
-          </>
-          )}
+        </>
+      )}
       {showDeleteConfirm && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded-lg shadow-md mx-8">

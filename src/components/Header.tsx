@@ -60,9 +60,9 @@ export default function Header({ pageTitle }: { pageTitle: string }) {
           </button>
           <ul className="space-y-4 text-center w-full">
             <li>
-              <Link to="/record" className="flex gap-2 items-center justify-center text-3xl font-bold text-green-500 hover:underline py-4">
+              <Link to="/record" className="flex gap-2 items-center justify-center text-2xl text-black-500 hover:underline py-4">
               <Mic size={36} />
-                Start New Lesson
+                New Lesson
               </Link>
             </li>
             <li>
@@ -72,16 +72,16 @@ export default function Header({ pageTitle }: { pageTitle: string }) {
             </li>
             <li>
               <Link to="/recordings" className="block text-2xl text-black-500 hover:underline py-4">
-                Past Lessons
+                My Past Lessons
               </Link>
             </li>
             <li>
-              <Link to="/settings" className="block text-2xl text-black-500 hover:underline py-4">
+              <Link className="block text-2xl text-gray-300 hover:underline py-4">
                 Settings
               </Link>
             </li>
             <li>
-              <Link to="/help" className="block text-2xl text-black-500 hover:underline py-4">
+              <Link className="block text-2xl text-gray-300 hover:underline py-4">
                 Help
               </Link>
             </li>
