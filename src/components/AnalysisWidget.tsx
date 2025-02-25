@@ -25,6 +25,7 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
   const [styleStars, setStyleStars] = useState(0); // Example style value
   const lessonPlanMetricsData = analysis.r_full_response_json.predictions.lesson_plan_metrics;
   const suggestionsData = analysis.r_full_response_json.suggestions;
+  const predictionsData = analysis.r_full_response_json.predictions;
 
   useEffect(() => {
     let selectedText = textOptions[3]; // Default to "Getting There!"
@@ -94,11 +95,12 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
       <div className="grid grid-cols-2 gap-4">
         <div className="col-span-2">
           <p className="text-lg font-semibold text-gray-800">{toSentenceCase(analysis.subject)} - Grade {analysis.grade}</p>
+          <p className="text-md font-regular text-gray-600">{toSentenceCase(analysis.topic.replace('_', ' '))}</p>
           <p className="text-sm font-regular text-gray-400">{formatDate(analysis.timestamp)}</p>
         </div>
         {/* Widget A: Overall Score */}
-        <button
-          onClick={() => console.log('Navigate to new page')}
+        <Link
+          to={'/recordings/' + analysis.id + '/lessonDetails'} state={{ predictionsData, lessonPlanMetricsData, structureStars, depthStars, styleStars }}
           className="col-span-2 bg-white p-6 rounded-lg shadow-md relative text-left"
         >
           <h3 className="text-lg font-semibold mb-4">Your Lesson</h3>
@@ -128,7 +130,7 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
           </div>
 
           <ArrowRight className="absolute bottom-2 right-2 text-gray-400" size={24} />
-        </button>
+        </Link>
 
         {/* Widget B: Topics */}
         <Link

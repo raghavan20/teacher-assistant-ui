@@ -37,7 +37,8 @@ export default function AllRecordingsPage() {
 
   const filteredRecordings = recordings.filter(recording =>
     recording.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    recording.grade.toLowerCase().includes(searchTerm.toLowerCase())
+    recording.grade.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    recording.topic.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleReanalyze = async (recording: RecordingDetails) => {
@@ -49,7 +50,7 @@ export default function AllRecordingsPage() {
     }
     formData.append('subject', recording.subject);
     formData.append('grade', recording.grade);
-    formData.append('topic', recording.topic || '');
+    formData.append('topic', recording.topic);
     formData.append('state', recording.state || '');
     formData.append('board', recording.board || '');
     formData.append('district', recording.district || '');
@@ -121,7 +122,7 @@ export default function AllRecordingsPage() {
               <div className="relative">
                 <input
                   type="text"
-                  placeholder="Search by subject or grade..."
+                  placeholder="Search by subject, topic, or grade..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -135,14 +136,13 @@ export default function AllRecordingsPage() {
                   key={index}
                   className="relative block p-4 bg-white rounded-lg shadow-md hover:bg-gray-100 transition-colors"
                 >
-                  <button className='absolute top-2 right-2'
-                    onClick={() => handleDeleteRecording(recording.id)}>
-                    <Trash className='text-red-500' size={20} />
-                  </button>
                   <div className="flex justify-between items-center">
                     <div>
-                      <h3 className="text-lg font-semibold">{toSentenceCase(recording.subject)}</h3>
-                      <p className="text-gray-600">Grade {recording.grade}</p>
+                      <div className='flex items-center gap-2'>
+                        <p className="text-lg font-semibold">{toSentenceCase(recording.subject)}</p>
+                        <p className="text-sm text-gray-600">Grade {recording.grade}</p>
+                      </div>
+                      <p className="text-gray-600">{toSentenceCase(recording.topic?.replace('_', ' '))}</p>
                       <p className="text-gray-400 text-sm">{new Date(recording.timestamp).toLocaleString('en-US', {
                         year: 'numeric',
                         month: 'long',
@@ -154,10 +154,11 @@ export default function AllRecordingsPage() {
                         hour12: true, // 12-hour format with AM/PM
                       })}</p>
                     </div>
+                    <div>
                     {recording.r_overall_score ? (
-                      <Link className='flex gap-2' to={`/recordings/${recording.id}/analysis`}>
+                      <Link className='flex items-center gap-2' to={`/recordings/${recording.id}/analysis`}>
                         <Eye className="text-blue-500" />
-                        <p className='text-blue-500'>View Analysis</p>
+                        <p className='text-blue-500'>View</p>
                       </Link>
                     ) : (
                       <button className="bg-blue-500 text-white p-2 rounded-md flex items-center space-x-2"
@@ -166,6 +167,12 @@ export default function AllRecordingsPage() {
                         <p>Analyze</p>
                       </button>
                     )}
+                    <button className='flex items-center gap-2 mt-6'
+                      onClick={() => handleDeleteRecording(recording.id)}>
+                      <Trash className='text-red-500' size={20} />
+                      <p className='text-red-500'>Delete</p>
+                    </button>
+                    </div>
                   </div>
                 </div>
               ))}

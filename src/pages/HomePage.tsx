@@ -12,9 +12,9 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 export default function HomePage() {
   const pageTitle = "My Profile";
   const teacherName = localStorage.getItem('name') || 'Pallavi';
-  const [totalLessons, setTotalLessons] = useState<number>(3);
-  const [totalStars, setTotalStars] = useState<number>(9);
-  const [streakDays, setStreakDays] = useState<number>(2);
+  const [totalLessons, setTotalLessons] = useState<number>(0);
+  const [totalStars, setTotalStars] = useState<number>(0);
+  const [streakDays, setStreakDays] = useState<number>(1);
   const userId = localStorage.getItem('userId');
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export default function HomePage() {
         if (Array.isArray(data)) {
           setTotalLessons(data.length);
           setTotalStars(totalLessons * 6);
-          setStreakDays(totalLessons);
+          setStreakDays(Math.floor(totalLessons / 2));
         } else {
           console.error("Unexpected API response format:", data);
           setTotalLessons(0);
@@ -37,13 +37,19 @@ export default function HomePage() {
       }
     };
     fetchTotalLessons();
-  }, []);
+  }, [totalLessons, totalStars, streakDays]);
 
   const data = {
     labels: ['S', 'M', 'T', 'W', 'Th', 'F', 'Sa'],
     datasets: [
       {
-        data: [5, 10, 7, 8, 6, 9, 4], // Replace with dynamic data if available
+        data: [0, 
+          Math.floor(totalStars / 5), 
+          Math.floor(totalStars / 10), 
+          Math.floor(totalStars / 2.5), 
+          Math.floor(totalStars / 5), 
+          Math.floor(totalStars / 10), 
+          0], // Replace with dynamic data if available
         backgroundColor: 'rgba(107, 59, 245, 0.9)',
         borderWidth: 1,
         borderRadius: 8,

@@ -26,6 +26,7 @@ export interface RecordingAnalysis {
   r_topics_covered: number;
   r_topics_required: number;
   subject: string;
+  topic: string;
   timestamp: string;
   user_id: number;
 }
@@ -45,7 +46,7 @@ export interface RecordingDetails {
   block?: string;
   subject: string;
   grade: string;
-  topic?: string;
+  topic: string;
   notes?: string;
   audioBlob?: Blob;
   timestamp: string;

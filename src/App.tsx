@@ -9,6 +9,7 @@ import QuizPage from './pages/QuizPage.tsx';
 import ActivityPage from './pages/ActivityPage.tsx';
 import SuggestionsPage from './pages/SuggestionsPage.tsx';
 import TopicsPage from './pages/TopicsPage.tsx';
+import LessonDetailsPage from './pages/LessonDetailsPage.tsx';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/record" element={<RecordingPage />} />
         <Route path="/recordings/:id" element={<RecordingPage />} />
         <Route path="/recordings/:id/analysis" element={<AnalysisPage />} />
+        <Route path="/recordings/:recordingId/lessonDetails" element={<LessonDetailsPage />} />
         <Route path="/recordings/:id/suggestions" element={<SuggestionsPage />} />
         <Route path="/recordings/:id/topics" element={<TopicsPage />} />
         <Route path="/recordings/:recordingId/activity" element={<ActivityPage />} />
