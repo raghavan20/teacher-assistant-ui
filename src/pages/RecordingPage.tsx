@@ -434,7 +434,7 @@ export default function RecordingPage() {
           {fetchingLessonPlan && (
             <div className="min-h-screen fixed inset-0 items-center justify-center bg-black bg-opacity-50 py-auto">
               <div className="justify-center items-center py-32 my-auto">
-                <img src='./src/assets/analyze.gif' alt="Loading..." className="mx-auto" />
+                <img src='/assets/analyze.gif' alt="Loading..." className="mx-auto" />
                 <p className="text-4xl text-white text-center my-8 animate-bounce">Generating<br></br>Lesson Plan..</p>
               </div>
             </div>
@@ -448,7 +448,7 @@ export default function RecordingPage() {
     <div className="min-h-screen px-4 py-4 flex flex-col">
       {loading ? (
         <div className="justify-center items-center my-auto">
-          <img src='./src/assets/analyze.gif' alt="Loading..." className="mx-auto" />
+          <img src='/assets/analyze.gif' alt="Loading..." className="mx-auto" />
           <p className="text-4xl text-center my-8 animate-bounce">Analyzing..</p>
         </div>
       ) : (

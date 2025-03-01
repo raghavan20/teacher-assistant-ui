@@ -36,7 +36,7 @@ export default function QuizPage() {
     return (
       <div className="min-h-screen px-4 py-4 flex flex-col">
         <div className="justify-center items-center py-32 my-auto">
-          <img src='/src/assets/analyze.gif' alt="Loading..." className="mx-auto" />
+          <img src='/assets/analyze.gif' alt="Loading..." className="mx-auto" />
           <p className="text-4xl text-gray-800 text-center my-8 animate-bounce">Generating<br></br>Quiz!</p>
         </div>
       </div>

@@ -273,10 +273,10 @@ export default function AnalysisWidget({ analysis, onShowDetails }: AnalysisWidg
             </div>
             <p className="text-2xl text-center font-semibold mt-2 mb-2">Share Via:</p>
             <div className="flex items-center justify-center px-8 mt-4 gap-4">
-              <img src="/src/assets/wa.png" className="mx-auto w-12 h-12" />
-              <img src="/src/assets/fb.png" className="mx-auto w-12 h-12" />
-              <img src="/src/assets/insta.png" className="mx-auto w-14 h-14" />
-              <img src="/src/assets/email.png" className="mx-auto w-11 h-11" />
+              <img src="/assets/wa.png" className="mx-auto w-12 h-12" />
+              <img src="/assets/fb.png" className="mx-auto w-12 h-12" />
+              <img src="/assets/insta.png" className="mx-auto w-14 h-14" />
+              <img src="/assets/email.png" className="mx-auto w-11 h-11" />
             </div>
           </div>
         </div>

@@ -41,16 +41,13 @@ A mobile-friendly web application designed to help teachers improve their teachi
 
 ## Building for Production
 
-1. Create a production build:
    ```bash
    npm run build
+   
+   cd dist/
+   http-server
    ```
-
-2. Preview the production build:
-   ```bash
-   npm run preview
-   ```
-
+   check the website at http://localhost:8080/
 
 
 ## Other commands

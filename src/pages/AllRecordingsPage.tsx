@@ -109,7 +109,7 @@ export default function AllRecordingsPage() {
       {loading ? (
         <div className="min-h-screen px-4 py-4 flex flex-col">
           <div className="justify-center items-center my-auto">
-            <img src='./src/assets/analyze.gif' alt="Loading..." className="mx-auto" />
+            <img src='/assets/analyze.gif' alt="Loading..." className="mx-auto" />
             <p className="text-4xl text-center my-8 animate-bounce">Analyzing..</p>
           </div>
         </div>
